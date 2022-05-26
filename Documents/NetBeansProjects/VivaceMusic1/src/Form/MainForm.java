@@ -10,7 +10,7 @@ package Form;
 public class MainForm extends javax.swing.JFrame {
     
     /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    Awal Deklarasi Method Fungsi
+    Awal Deklarasi Method Fungsi HAPUS
     */ 
     
     FormDashboard dashboard = new FormDashboard();
