@@ -154,6 +154,7 @@ public class FormBarang extends javax.swing.JPanel {
     /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     Akhir Deklarasi Method Fungsi
      pp
+     project versi 2.0
     */ 
     
     public FormBarang() {
