@@ -1,3 +1,4 @@
+
 /*
  * Author   : Kelompok A2
  * Matkul   : WSIBD, ManPro, IMK
@@ -76,7 +77,7 @@ public class FormPengaturan extends javax.swing.JPanel {
         txtnamakeanggotaan.setText(null);
         txtpassword.setText(null);
         txtnotelp.setText(null);
-        
+        txtidktp.setText(null);
     }
     
     private void fileChooser(){
@@ -132,6 +133,7 @@ public class FormPengaturan extends javax.swing.JPanel {
         btnTambah = new javax.swing.JLabel();
         bgP = new javax.swing.JLabel();
         panelD = new javax.swing.JPanel();
+        btnUbahD = new javax.swing.JLabel();
         bgP1 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -199,7 +201,7 @@ public class FormPengaturan extends javax.swing.JPanel {
         });
         panelP.add(hakaksescb, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 750, 270, 40));
 
-        tglst.setDateFormatString("yyyy-MM-dd");
+        tglst.setDateFormatString("dd-MM-yyyy");
         tglst.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         panelP.add(tglst, new org.netbeans.lib.awtextra.AbsoluteConstraints(357, 750, 290, 40));
 
@@ -370,6 +372,13 @@ public class FormPengaturan extends javax.swing.JPanel {
 
         panelD.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        btnUbahD.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
+        btnUbahD.setForeground(new java.awt.Color(95, 95, 95));
+        btnUbahD.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnUbahD.setText("BROWSE");
+        btnUbahD.setPreferredSize(new java.awt.Dimension(104, 36));
+        panelD.add(btnUbahD, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 297, 200, 40));
+
         bgP1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Form Database.png"))); // NOI18N
         panelD.add(bgP1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1600, 1010));
 
@@ -386,11 +395,6 @@ public class FormPengaturan extends javax.swing.JPanel {
             txtnamakeanggotaan.setText("");
         } else {
             txtnamakeanggotaan.setText(tabel.getValueAt(baris, 2).toString());
-        }
-        if (tabel.getValueAt(baris, 3)==null){
-            txtnamakeanggotaan.setText("");
-        } else {
-            txtnamakeanggotaan.setText(tabel.getValueAt(baris, 3).toString());
         }
         if (tabel.getValueAt(baris, 4)==null){
             txtnotelp.setText("");
@@ -455,7 +459,7 @@ public class FormPengaturan extends javax.swing.JPanel {
         try {
             String sql = "UPDATE user SET nama_karyawan = '"+txtnamakeanggotaan.getText()+"', telepon = "
                          +txtnotelp.getText()+", user_parameter = '"+hakaksescb.getSelectedItem()+"' WHERE idkaryawan = '" + txtidkeanggotaan.getText()+"'";
-            String sql2 = "SELECT idkaryawan, telepon, tgl_lahir FROM user";
+            String sql2 = "SELECT idkaryawan, telepon, tgl_lahir, idktp FROM user";
             String sql3 = "UPDATE user SET password = '"+txtpassword.getText()+"' WHERE idkaryawan = '" + txtidkeanggotaan.getText()+"'";
             java.sql.Connection conn = (Connection) Config.configDB();
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
@@ -464,18 +468,21 @@ public class FormPengaturan extends javax.swing.JPanel {
             pst.execute();
             java.sql.ResultSet rs = pst.executeQuery(sql2);
             while (rs.next()){
-            if (txtidkeanggotaan.getText().equals(rs.getString("idkaryawan"))&& txtnotelp.getText().equals(rs.getString("telepon"))&& tglst.equals(rs.getString("tgl_lahir"))){
+            if (txtidkeanggotaan.getText().equals(rs.getString("idkaryawan"))&& txtnotelp.getText().equals(rs.getString("telepon"))&& txtidktp.getText().equals(rs.getString("idktp"))){
+//                && tglst.getDate().equals(rs.getString("tgl_lahir"))
                 pst3.execute();
+                JOptionPane.showMessageDialog(null,"Data Berhasil di Perbarui\nPassword Berhasil Diubah!");
+                } else {
                 }
             }
-            JOptionPane.showMessageDialog(null,"Data Berhasil di Perbarui");
+            JOptionPane.showMessageDialog(null,"Password Gagal Diubah!\nHarap cek kembali semua data yang dimasukkan");
             DefaultTableModel model = (DefaultTableModel)tabel.getModel();
             model.setRowCount(0);
             model.setColumnCount(0);
             load_tabel();
             lebar_tabel();
         } catch (HeadlessException | SQLException e) {
-            JOptionPane.showMessageDialog(null, "Perubahan Data Gagal!\n"+e.getMessage());
+//            JOptionPane.showMessageDialog(null, "Perubahan Data Gagal!\n"+e.getMessage());
         }
         kosongkan();
     }//GEN-LAST:event_btnEditMouseClicked
@@ -702,6 +709,7 @@ public class FormPengaturan extends javax.swing.JPanel {
     private javax.swing.JLabel btnHapus;
     private javax.swing.JLabel btnTambah;
     private javax.swing.JLabel btnUbah;
+    private javax.swing.JLabel btnUbahD;
     private javax.swing.JLabel eyehide;
     private javax.swing.JLabel eyeshow;
     private javax.swing.JComboBox<String> hakaksescb;

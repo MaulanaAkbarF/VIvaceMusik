@@ -393,6 +393,18 @@ public class FormLaporan extends javax.swing.JPanel {
     private void initComponents() {
 
         Laporancb = new javax.swing.JComboBox<>();
+        panelLT = new javax.swing.JPanel();
+        angkapenjualan1thn = new javax.swing.JLabel();
+        textpenjualan1hr = new javax.swing.JLabel();
+        angkapembelian1thn = new javax.swing.JLabel();
+        textpembeli = new javax.swing.JLabel();
+        angkabrterjual = new javax.swing.JLabel();
+        textstok = new javax.swing.JLabel();
+        angkadibeli = new javax.swing.JLabel();
+        textstokmasuk = new javax.swing.JLabel();
+        textpembeli1 = new javax.swing.JLabel();
+        GrafikPanel = new javax.swing.JPanel();
+        bgLT = new javax.swing.JLabel();
         panelLP = new javax.swing.JPanel();
         date2LP = new com.toedter.calendar.JDateChooser();
         date1LP = new com.toedter.calendar.JDateChooser();
@@ -406,18 +418,6 @@ public class FormLaporan extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelLP = new javax.swing.JTable();
         bgLP = new javax.swing.JLabel();
-        panelLT = new javax.swing.JPanel();
-        angkapenjualan1thn = new javax.swing.JLabel();
-        textpenjualan1hr = new javax.swing.JLabel();
-        angkapembelian1thn = new javax.swing.JLabel();
-        textpembeli = new javax.swing.JLabel();
-        angkabrterjual = new javax.swing.JLabel();
-        textstok = new javax.swing.JLabel();
-        angkadibeli = new javax.swing.JLabel();
-        textstokmasuk = new javax.swing.JLabel();
-        textpembeli1 = new javax.swing.JLabel();
-        GrafikPanel = new javax.swing.JPanel();
-        bgLT = new javax.swing.JLabel();
         panelLSM = new javax.swing.JPanel();
         date2LSM = new com.toedter.calendar.JDateChooser();
         date1LSM = new com.toedter.calendar.JDateChooser();
@@ -442,6 +442,58 @@ public class FormLaporan extends javax.swing.JPanel {
             }
         });
         add(Laporancb, new org.netbeans.lib.awtextra.AbsoluteConstraints(126, 50, 400, 45));
+
+        panelLT.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        angkapenjualan1thn.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        angkapenjualan1thn.setText("Rp.0,0");
+        panelLT.add(angkapenjualan1thn, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, 640, 80));
+
+        textpenjualan1hr.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        textpenjualan1hr.setForeground(new java.awt.Color(130, 130, 130));
+        textpenjualan1hr.setText("Penjualan Selama Satu Tahun");
+        panelLT.add(textpenjualan1hr, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, 490, -1));
+
+        angkapembelian1thn.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        angkapembelian1thn.setText("Rp.0,0");
+        panelLT.add(angkapembelian1thn, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 460, 640, 50));
+
+        textpembeli.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        textpembeli.setText("Grafik Penjualan Selama 12 Bulan Terakhir");
+        panelLT.add(textpembeli, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 660, 490, -1));
+
+        angkabrterjual.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        angkabrterjual.setText("0 Barang");
+        panelLT.add(angkabrterjual, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 210, 640, 80));
+
+        textstok.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        textstok.setForeground(new java.awt.Color(130, 130, 130));
+        textstok.setText("Jumlah Barang Terjual");
+        panelLT.add(textstok, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 290, 490, -1));
+
+        angkadibeli.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        angkadibeli.setText("0 Barang");
+        panelLT.add(angkadibeli, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 460, 640, 50));
+
+        textstokmasuk.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        textstokmasuk.setForeground(new java.awt.Color(130, 130, 130));
+        textstokmasuk.setText("Jumlah Barang Dibeli");
+        panelLT.add(textstokmasuk, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 520, 490, -1));
+
+        textpembeli1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        textpembeli1.setForeground(new java.awt.Color(130, 130, 130));
+        textpembeli1.setText("Pembelian Selama Satu Tahun");
+        panelLT.add(textpembeli1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 520, 490, -1));
+
+        GrafikPanel.setOpaque(false);
+        GrafikPanel.setLayout(new javax.swing.BoxLayout(GrafikPanel, javax.swing.BoxLayout.LINE_AXIS));
+        panelLT.add(GrafikPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 700, 1450, 230));
+
+        bgLT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Form Laporan Total.png"))); // NOI18N
+        bgLT.setText("Pembelian Selama Satu Tahun");
+        panelLT.add(bgLT, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        add(panelLT, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1600, 1010));
 
         panelLP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -594,58 +646,6 @@ public class FormLaporan extends javax.swing.JPanel {
         panelLP.add(bgLP, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         add(panelLP, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1600, 1010));
-
-        panelLT.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        angkapenjualan1thn.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        angkapenjualan1thn.setText("Rp.0,0");
-        panelLT.add(angkapenjualan1thn, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, 640, 80));
-
-        textpenjualan1hr.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        textpenjualan1hr.setForeground(new java.awt.Color(130, 130, 130));
-        textpenjualan1hr.setText("Penjualan Selama Satu Tahun");
-        panelLT.add(textpenjualan1hr, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, 490, -1));
-
-        angkapembelian1thn.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        angkapembelian1thn.setText("Rp.0,0");
-        panelLT.add(angkapembelian1thn, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 460, 640, 50));
-
-        textpembeli.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        textpembeli.setText("Grafik Penjualan Selama 12 Bulan Terakhir");
-        panelLT.add(textpembeli, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 700, 490, -1));
-
-        angkabrterjual.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        angkabrterjual.setText("0 Barang");
-        panelLT.add(angkabrterjual, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 210, 640, 80));
-
-        textstok.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        textstok.setForeground(new java.awt.Color(130, 130, 130));
-        textstok.setText("Jumlah Barang Terjual");
-        panelLT.add(textstok, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 290, 490, -1));
-
-        angkadibeli.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        angkadibeli.setText("0 Barang");
-        panelLT.add(angkadibeli, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 460, 640, 50));
-
-        textstokmasuk.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        textstokmasuk.setForeground(new java.awt.Color(130, 130, 130));
-        textstokmasuk.setText("Jumlah Barang Dibeli");
-        panelLT.add(textstokmasuk, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 520, 490, -1));
-
-        textpembeli1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        textpembeli1.setForeground(new java.awt.Color(130, 130, 130));
-        textpembeli1.setText("Pembelian Selama Satu Tahun");
-        panelLT.add(textpembeli1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 520, 490, -1));
-
-        GrafikPanel.setOpaque(false);
-        GrafikPanel.setLayout(new javax.swing.BoxLayout(GrafikPanel, javax.swing.BoxLayout.LINE_AXIS));
-        panelLT.add(GrafikPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 740, 1450, 180));
-
-        bgLT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Form Laporan Total.png"))); // NOI18N
-        bgLT.setText("Pembelian Selama Satu Tahun");
-        panelLT.add(bgLT, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        add(panelLT, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1600, 1010));
 
         panelLSM.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

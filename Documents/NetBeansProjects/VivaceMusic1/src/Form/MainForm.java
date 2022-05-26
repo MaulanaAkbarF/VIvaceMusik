@@ -64,12 +64,6 @@ public class MainForm extends javax.swing.JFrame {
         stON.setVisible(false);
     }
     
-    /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    Akhir Deklarasi Method Fungsi
-    - - -
-    Awal Deklarasi Fungsi Tampilan
-    */ 
-    
     private void menuColor(){
         MenuDashboard.setBackground(new java.awt.Color(244, 239, 224));
         txtDashboard.setForeground(new java.awt.Color(153,153,153));
@@ -87,10 +81,10 @@ public class MainForm extends javax.swing.JFrame {
         txtPengaturan.setForeground(new java.awt.Color(153,153,153));
     }
     
-    private void dashboardShow(){
-        
-    }
-
+    /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    Akhir Deklarasi Method Fungsi
+    */ 
+    
     public MainForm() {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);
@@ -232,7 +226,7 @@ public class MainForm extends javax.swing.JFrame {
 
         txtTransaksi.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
         txtTransaksi.setForeground(new java.awt.Color(153, 153, 153));
-        txtTransaksi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/creditcard.png"))); // NOI18N
+        txtTransaksi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/transaksiicon.png"))); // NOI18N
         txtTransaksi.setText("       TRANSAKSI");
         MenuTransaksi.add(txtTransaksi, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 260, 60));
 
@@ -373,6 +367,8 @@ public class MainForm extends javax.swing.JFrame {
         MenuPanel.setVisible(true);
         opsiMenu();
         dashboard.setVisible(true);
+        dashboard.btnRefresh.setVisible(true);
+        dashboard.btnSelesai.setVisible(false);
         dsON.setText("on");
         brON.setText("off");
         pmON.setText("off");

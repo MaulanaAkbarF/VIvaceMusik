@@ -480,7 +480,7 @@ public class FormBarang extends javax.swing.JPanel {
             load_tabelbarang();
             lebar_tabelbarang();
             kosongkan();
-             generate(kb);
+            generate(kb);
         } catch (HeadlessException | SQLException e){
             JOptionPane.showMessageDialog(this, e.getMessage());
         } catch (Exception ex) {
@@ -498,7 +498,7 @@ public class FormBarang extends javax.swing.JPanel {
 
     private void btnEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseClicked
     try {
-            String sql = "UPDATE alatmusik "+"SET namaalatmusik = '"+txtnamabarang.getText()+"',"
+            String sql = "UPDATE alatmusik SET namaalatmusik = '"+txtnamabarang.getText()+"',"
             + " harga_beli = '"+txthargabeli.getText()
             +"', harga_jual = '"+txthargajual.getText()
             +"', stok = '"+txtstok.getText()+"'"+

@@ -184,6 +184,7 @@ public class FormTransaksi extends javax.swing.JPanel {
         initComponents();
         hidebtn();
         pbON.setText("off");
+        btnHapuspb.setVisible(false);
         auto_kdTR();
         auto_kdPB();
         load_tabelbr();
@@ -202,6 +203,7 @@ public class FormTransaksi extends javax.swing.JPanel {
         btnHitung = new javax.swing.JLabel();
         btnTambahkan = new javax.swing.JLabel();
         btnTambahpb = new javax.swing.JLabel();
+        btnHapuspb = new javax.swing.JLabel();
         btnCaribr = new javax.swing.JLabel();
         txtcaribarang = new javax.swing.JTextField();
         txtkembalian = new javax.swing.JTextField();
@@ -232,7 +234,7 @@ public class FormTransaksi extends javax.swing.JPanel {
         btnReset.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
         btnReset.setForeground(new java.awt.Color(95, 95, 95));
         btnReset.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnReset.setText("RESET");
+        btnReset.setText("RESET BELANJAAN");
         btnReset.setPreferredSize(new java.awt.Dimension(104, 36));
         btnReset.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
@@ -329,6 +331,27 @@ public class FormTransaksi extends javax.swing.JPanel {
             }
         });
         add(btnTambahpb, new org.netbeans.lib.awtextra.AbsoluteConstraints(1375, 34, 154, 30));
+
+        btnHapuspb.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
+        btnHapuspb.setForeground(new java.awt.Color(95, 95, 95));
+        btnHapuspb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnHapuspb.setText("HAPUS");
+        btnHapuspb.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnHapuspb.setPreferredSize(new java.awt.Dimension(104, 36));
+        btnHapuspb.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                btnHapuspbMouseMoved(evt);
+            }
+        });
+        btnHapuspb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHapuspbMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnHapuspbMouseExited(evt);
+            }
+        });
+        add(btnHapuspb, new org.netbeans.lib.awtextra.AbsoluteConstraints(1375, 34, 154, 30));
 
         btnCaribr.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
         btnCaribr.setForeground(new java.awt.Color(95, 95, 95));
@@ -568,6 +591,8 @@ public class FormTransaksi extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(null,"Data Pembeli dan Transaksi Berhasil Ditambahkan");
         pbON.setText("on");
         txtnamapembeli.setEnabled(false);
+        btnTambahpb.setVisible(false);
+        btnHapuspb.setVisible(true);
         txthargatotal.setText(null);
         txtpembayaran.setText(null);
         txtkembalian.setText(null);
@@ -636,21 +661,27 @@ public class FormTransaksi extends javax.swing.JPanel {
                 txtkembalian.setText(String.valueOf(Math.abs(kembalian)));
                 JOptionPane.showMessageDialog(this, "Pembayaran Berhasil");
                 try{
-                for(int i = 0; i < model2.getRowCount(); i++){
-                String sql = "INSERT INTO detail_transaksi VALUE('"+model2.getValueAt(i, 0)+"',"
-                        + " '"+model2.getValueAt(i, 1)+"', '"+model2.getValueAt(i, 3)+"', "
-                        + "'"+model2.getValueAt(i, 4)+"', '"+model2.getValueAt(i, 5)+"', '"+model2.getValueAt(i, 6)+"')";
-                Connection con = (Connection)Config.configDB();
-                java.sql.PreparedStatement pst = con.prepareStatement(sql);
-                pst.execute();
-                pbON.setText("off");
-                txtnamapembeli.setEnabled(false);
-                kosongkan();
-                auto_kdPB();
-            }           
-        }catch(SQLException e){
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
+                    for(int i = 0; i < model2.getRowCount(); i++){
+                        String sql = "INSERT INTO detail_transaksi VALUE('"+model2.getValueAt(i, 0)+"',"
+                            + " '"+model2.getValueAt(i, 1)+"', '"+model2.getValueAt(i, 3)+"', "
+                            + "'"+model2.getValueAt(i, 4)+"', '"+model2.getValueAt(i, 5)+"', '"+model2.getValueAt(i, 6)+"')";
+                        String sql2 = "UPDATE transaksi SET subtotal = "+txthargatotal.getText()+", pembayaran = "+txtpembayaran.getText()+","
+                                + "kembalian = "+txtkembalian.getText()+" WHERE idtransaksi = '"+txtidtransaksi.getText()+"'";
+                        Connection conn = (Connection)Config.configDB();
+                        java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+                        java.sql.PreparedStatement pst2 = conn.prepareStatement(sql2);
+                        pst.execute();
+                        pst2.execute();
+                    }
+                    pbON.setText("off");
+                    txtnamapembeli.setText(null);
+                    txtnamapembeli.setEnabled(true);
+                    kosongkan();
+                    auto_kdTR();
+                    auto_kdPB();
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(this, e.getMessage());
+                }
             }else{
                 JOptionPane.showMessageDialog(null,"Pembayaran Gagal!\nUang yang di bayarkan kurang sebesar RP."+kembalian);
             }
@@ -673,23 +704,22 @@ public class FormTransaksi extends javax.swing.JPanel {
                 txtkembalian.setText(String.valueOf(Math.abs(kembalian)));
                 JOptionPane.showMessageDialog(this, "Pembayaran Berhasil");
                 try{
-                    Connection con = (Connection)Config.configDB();
                     for(int i = 0; i < model2.getRowCount(); i++){
-                    String sql = "INSERT INTO detail_transaksi VALUE('"+model2.getValueAt(i, 0)+"',"
+                        String sql = "INSERT INTO detail_transaksi VALUE('"+model2.getValueAt(i, 0)+"',"
                             + " '"+model2.getValueAt(i, 1)+"', '"+model2.getValueAt(i, 3)+"', "
                             + "'"+model2.getValueAt(i, 4)+"', '"+model2.getValueAt(i, 5)+"', '"+model2.getValueAt(i, 6)+"')";
-
-                    java.sql.PreparedStatement pst = con.prepareStatement(sql);
-                    pst.execute();
-                    }  
-                    
-                    String sql2 = "UPDATE transaksi SET subtotal = '"+txthargatotal.getText()+"', pembayaran = '"+txtpembayaran.getText()+"', kembalian = '"+txtkembalian.getText()+"' WHERE transaksi.idtransaksi = '"+txtidtransaksi+"'";
-                    java.sql.PreparedStatement pst2 = con.prepareStatement(sql2);
-                    pst2.execute();
+                        String sql2 = "UPDATE transaksi SET subtotal = "+txthargatotal.getText()+", pembayaran = "+txtpembayaran.getText()+","
+                                + "kembalian = "+txtkembalian.getText()+" WHERE idtransaksi = '"+txtidtransaksi.getText()+"'";
+                        Connection conn = (Connection)Config.configDB();
+                        java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+                        java.sql.PreparedStatement pst2 = conn.prepareStatement(sql2);
+                        pst.execute();
+                        pst2.execute();
+                    }
                     pbON.setText("off");
                     txtnamapembeli.setText(null);
                     txtnamapembeli.setEnabled(true);
-    //                kosongkan();
+                    kosongkan();
                     auto_kdTR();
                     auto_kdPB();
                 }catch(SQLException e){
@@ -716,10 +746,44 @@ public class FormTransaksi extends javax.swing.JPanel {
         btnCetak.setForeground(new java.awt.Color(95,95,95));
     }//GEN-LAST:event_btnCetakMouseExited
 
+    private void btnHapuspbMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapuspbMouseMoved
+        btnHapuspb.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btnHapuspbMouseMoved
+
+    private void btnHapuspbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapuspbMouseClicked
+        try {        
+        String sql1 = "DELETE FROM pembeli WHERE idpembeli = '"+txtidpembeli.getText()+"'";
+        String sql2 = "DELETE FROM transaksi WHERE idtransaksi= '"+txtidtransaksi.getText()+"'";
+        java.sql.Connection conn = (Connection)Config.configDB();
+        java.sql.PreparedStatement pst1 = conn.prepareStatement(sql1);
+        java.sql.PreparedStatement pst2 = conn.prepareStatement(sql2);
+        pst2.execute();
+        pst1.execute();
+        JOptionPane.showMessageDialog(null,"Data Pembeli dan Transaksi Berhasil Dihapus");
+        pbON.setText("on");
+        txtnamapembeli.setText(null);
+        txtnamapembeli.setEnabled(true);
+        btnTambahpb.setVisible(true);
+        btnHapuspb.setVisible(false);
+        txthargatotal.setText(null);
+        txtpembayaran.setText(null);
+        txtkembalian.setText(null);
+        model2.setRowCount(0);
+        
+    } catch (HeadlessException | SQLException e){
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+    }//GEN-LAST:event_btnHapuspbMouseClicked
+
+    private void btnHapuspbMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapuspbMouseExited
+        btnHapuspb.setForeground(new java.awt.Color(95,95,95));
+    }//GEN-LAST:event_btnHapuspbMouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCaribr;
     private javax.swing.JLabel btnCetak;
+    private javax.swing.JLabel btnHapuspb;
     private javax.swing.JLabel btnHitung;
     private javax.swing.JLabel btnReset;
     private javax.swing.JLabel btnTambahkan;

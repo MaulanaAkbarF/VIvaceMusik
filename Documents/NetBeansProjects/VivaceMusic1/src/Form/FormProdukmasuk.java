@@ -214,6 +214,7 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         btnCaribr.setVisible(false);
         txtcaribarang.setVisible(false);
         txtnamasupplier.setEnabled(false);
+        btnHapussp.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -226,6 +227,7 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         btnCetak = new javax.swing.JLabel();
         btnTambahkan = new javax.swing.JLabel();
         btnTambahsp = new javax.swing.JLabel();
+        btnHapussp = new javax.swing.JLabel();
         btnCarisp = new javax.swing.JLabel();
         btnCaribr = new javax.swing.JLabel();
         btnBarang = new javax.swing.JLabel();
@@ -361,6 +363,27 @@ public class FormProdukmasuk extends javax.swing.JPanel {
             }
         });
         add(btnTambahsp, new org.netbeans.lib.awtextra.AbsoluteConstraints(1375, 34, 154, 30));
+
+        btnHapussp.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
+        btnHapussp.setForeground(new java.awt.Color(95, 95, 95));
+        btnHapussp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnHapussp.setText("HAPUS");
+        btnHapussp.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnHapussp.setPreferredSize(new java.awt.Dimension(104, 36));
+        btnHapussp.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                btnHapusspMouseMoved(evt);
+            }
+        });
+        btnHapussp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHapusspMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnHapusspMouseExited(evt);
+            }
+        });
+        add(btnHapussp, new org.netbeans.lib.awtextra.AbsoluteConstraints(1375, 34, 154, 30));
 
         btnCarisp.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
         btnCarisp.setForeground(new java.awt.Color(95, 95, 95));
@@ -796,9 +819,11 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         java.sql.Connection conn = (Connection)Config.configDB();
         java.sql.PreparedStatement pst1 = conn.prepareStatement(sql1);
         pst1.execute();
-        JOptionPane.showMessageDialog(null,"Data Supplier Berhasil Ditambahkan");
+        JOptionPane.showMessageDialog(null,"Data Supplier dan Produk Masuk Berhasil Ditambahkan");
         txtjumlah.setText(null);
         namaspON.setText("on");
+        btnHapussp.setVisible(true);
+        btnTambahsp.setVisible(false);
         txthargatotal.setText(null);
         txtpembayaran.setText(null);
         txtkembalian.setText(null);
@@ -941,6 +966,38 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtpembayaranActionPerformed
 
+    private void btnHapusspMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusspMouseMoved
+        btnHapussp.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btnHapusspMouseMoved
+
+    private void btnHapusspMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusspMouseClicked
+        try {
+            String sql = "DELETE FROM produkmasuk WHERE id_produkmasuk = '"+txtidprodukmasuk.getText()+"'";
+            java.sql.Connection conn = (Connection)Config.configDB();
+            java.sql.PreparedStatement pst1 = conn.prepareStatement(sql);
+            pst1.execute();
+            JOptionPane.showMessageDialog(null,"Data Supplier dan Produk Masuk Berhasil Dihapus"
+            
+            );
+            spON.setText("on");
+            txtnamasupplier.setText(null);
+            txtnamasupplier.setEnabled(true);
+            btnTambahsp.setVisible(true);
+            btnHapussp.setVisible(false);
+            txthargatotal.setText(null);
+            txtpembayaran.setText(null);
+            txtkembalian.setText(null);
+            model2.setRowCount(0);
+
+        } catch (HeadlessException | SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_btnHapusspMouseClicked
+
+    private void btnHapusspMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusspMouseExited
+        btnHapussp.setForeground(new java.awt.Color(95,95,95));
+    }//GEN-LAST:event_btnHapusspMouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField brON;
@@ -949,6 +1006,7 @@ public class FormProdukmasuk extends javax.swing.JPanel {
     private javax.swing.JLabel btnCaribr;
     private javax.swing.JLabel btnCarisp;
     private javax.swing.JLabel btnCetak;
+    private javax.swing.JLabel btnHapussp;
     private javax.swing.JLabel btnHitung;
     private javax.swing.JLabel btnReset;
     private javax.swing.JLabel btnSupplier;
