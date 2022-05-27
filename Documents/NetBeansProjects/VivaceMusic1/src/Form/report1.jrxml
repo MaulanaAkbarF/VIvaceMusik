@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="254" pageHeight="586" columnWidth="226" leftMargin="0" rightMargin="28" topMargin="0" bottomMargin="0" uuid="ca0cfda5-9564-4fc4-a83a-d731a7ddcd3c">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+     transaksi.`idtransaksi` AS transaksi_idtransaksi,
+     transaksi.`idpembeli` AS transaksi_idpembeli,
+     transaksi.`tanggal` AS transaksi_tanggal,
+     detail_transaksi.`idtransaksi` AS detail_transaksi_idtransaksi,
+     detail_transaksi.`idalatmusik` AS detail_transaksi_idalatmusik,
+     detail_transaksi.`harga` AS detail_transaksi_harga,
+     detail_transaksi.`jumlah` AS detail_transaksi_jumlah,
+     detail_transaksi.`totalharga` AS detail_transaksi_totalharga,
+     detail_transaksi.`tanggal` AS detail_transaksi_tanggal,
+     alatmusik.`idalatmusik` AS alatmusik_idalatmusik,
+     alatmusik.`namaalatmusik` AS alatmusik_namaalatmusik,
+     alatmusik.`harga_jual` AS alatmusik_harga_jual,
+     alatmusik.`harga_beli` AS alatmusik_harga_beli,
+     alatmusik.`stok` AS alatmusik_stok
+FROM
+     `transaksi` transaksi INNER JOIN `detail_transaksi` detail_transaksi ON transaksi.`idtransaksi` = detail_transaksi.`idtransaksi`
+     INNER JOIN `alatmusik` alatmusik ON detail_transaksi.`idalatmusik` = alatmusik.`idalatmusik`]]>
+	</queryString>
+	<field name="transaksi_idtransaksi" class="java.lang.String"/>
+	<field name="transaksi_idpembeli" class="java.lang.String"/>
+	<field name="transaksi_tanggal" class="java.sql.Date"/>
+	<field name="alatmusik_namaalatmusik" class="java.lang.String"/>
+	<field name="detail_transaksi_jumlah" class="java.lang.Integer"/>
+	<field name="detail_transaksi_harga" class="java.lang.Integer"/>
+	<field name="detail_transaksi_totalharga" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="67" splitType="Stretch">
+			<staticText>
+				<reportElement x="21" y="23" width="100" height="12" uuid="ebd3251d-5467-4d09-8ab5-1eb9d120a10e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOKO VIVACE MUSIC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="35" width="110" height="30" uuid="5b8b23a4-ad84-4068-baf8-ab51c9097074"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Jl. A. R. Saleh No. 79, Kauman Kec. Nganjuk Kab. Nganjuk
+Telp. 085655788445]]></text>
+			</staticText>
+			<image>
+				<reportElement x="61" y="6" width="27" height="16" uuid="c7e8a0e6-67f4-4b26-abc8-42fd318b4874"/>
+				<imageExpression><![CDATA["C:\\Users\\ASUS\\Pictures\\VIVACEMUSIC 1.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="0" width="52" height="20" uuid="7ef83818-5bfb-4a91-b597-363ca195ed1a"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Id Transaksi :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="16" width="52" height="20" uuid="8076ca7b-d885-4194-99ae-a3e5dae545bc"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Id Pembeli    :]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="100" y="0" width="36" height="20" uuid="1646c926-2e0e-43dc-b4c1-fae32150793f"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="44" y="0" width="44" height="10" uuid="ca1f9785-5870-465b-9879-56bb90d9f3aa"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{transaksi_idtransaksi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="44" y="16" width="47" height="15" uuid="f53fee0f-b44d-4d6a-a265-c7d5da788295"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{transaksi_idpembeli}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="36" width="27" height="20" uuid="d5910ea9-d0e6-406a-a1e3-dd7e55fff277"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="39" y="36" width="28" height="20" uuid="ccd504ea-2649-430c-b199-ab3835d68009"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jumlah]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="75" y="36" width="26" height="20" uuid="a570f31f-4110-4fe0-b9e1-2e2dd897c57b"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Harga ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="112" y="36" width="28" height="20" uuid="146c7032-ce72-4155-98fd-071b6db3fea9"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="26" width="147" height="12" uuid="cf9cd63f-4262-4990-acee-2e1fd486734d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[--------------------------------------------------------------------]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="47" width="147" height="12" uuid="0578c788-2fb9-4450-9299-7eae0dc33a1d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[--------------------------------------------------------------------]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<textField>
+				<reportElement x="1" y="1" width="38" height="20" uuid="fcc43cd6-c7cc-4c4d-af86-ef0d07d111e6"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{alatmusik_namaalatmusik}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="83" y="2" width="29" height="20" uuid="a1f47e0f-6d2e-48e0-9eb2-0a1ea3b09d78"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detail_transaksi_harga}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="112" y="1" width="35" height="20" uuid="6deef514-616d-44dc-9ef0-7d82025c9681"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detail_transaksi_totalharga}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="75" y="1" width="6" height="20" uuid="c24587e9-4b03-49b1-8553-5eadd6f83133"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[@]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="42" y="2" width="22" height="20" uuid="c7bed76b-ee17-41de-8968-da1b0c5fe9fd"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detail_transaksi_jumlah}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="75" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="10" width="97" height="20" uuid="bf433c98-9ee0-4aa2-90b9-140d504d3ca1"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Subtotal            : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="30" width="100" height="20" uuid="92ed4b99-8735-4939-9c5e-43eab3b142b1"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Jumlah Bayar   :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="51" width="100" height="20" uuid="23a94dc9-3d51-47f6-86bb-2394161b676e"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Kembalian        :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="63" width="147" height="12" uuid="b560a1d5-bcad-4fd6-b456-ecc513b3eb01"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[--------------------------------------------------------------------]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="-1" width="146" height="12" uuid="a6f615b8-42d3-494e-a3de-bd37edb7122b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[--------------------------------------------------------------------]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="103" splitType="Stretch">
+			<staticText>
+				<reportElement x="9" y="1" width="126" height="22" uuid="cb318880-41e4-4a02-a3b0-4e4f17d33bb4"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TERIMAKASIH SUDAH MEMBELI 
+BARANG DITOKO KAMI :)]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
