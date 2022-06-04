@@ -599,11 +599,6 @@ public class FormTransaksi extends javax.swing.JPanel {
         daftar.setRowHeight(18);
         daftar.setSelectionBackground(new java.awt.Color(194, 184, 156));
         daftar.setSelectionForeground(new java.awt.Color(0, 0, 0));
-        daftar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                daftarMouseClicked(evt);
-            }
-        });
         jScrollPane2.setViewportView(daftar);
 
         add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 580, 890, 390));
@@ -658,17 +653,9 @@ public class FormTransaksi extends javax.swing.JPanel {
         }
         
         stokbr = model.getValueAt(x, 4).toString();
-        System.out.println(stokbr);
+        mclkx = x;
     }//GEN-LAST:event_tabelMouseClicked
-
-    // Variabel untuk daftarMouseClicked
-    public int mctp;
-    
-    private void daftarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_daftarMouseClicked
-        int mct = daftar.getSelectedRow();
-        mctp = mct;
-    }//GEN-LAST:event_daftarMouseClicked
-
+    public int mclkx;
     private void btnCaribrMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCaribrMouseMoved
         btnCaribr.setForeground(new java.awt.Color(0, 0, 0));
     }//GEN-LAST:event_btnCaribrMouseMoved
@@ -770,7 +757,8 @@ public class FormTransaksi extends javax.swing.JPanel {
                 int harga1 = Integer.parseInt(hargabelibr);
                 int total = jumlah1 * harga1;
                 txthargabeli.setText(String.valueOf(total));
-
+                int pngrn = stok - jumlah1;
+                
                 Date date = new Date();
                 DateFormat formattanggal = new SimpleDateFormat("yyyy-MM-dd");
                 String sekarang = formattanggal.format(date);
@@ -782,6 +770,10 @@ public class FormTransaksi extends javax.swing.JPanel {
                         int jml1 = Integer.parseInt(daftar.getValueAt(i, 4).toString());
                         int jml2 = jumlah1 + jml1;
                         int hr1 = jml2 * harga1;
+                        int pngr = stok - jumlah1;
+                        
+                        tabel.setValueAt(pngr, mclkx, 4);
+                        System.out.println(pngrn);
                         daftar.setValueAt(jml2, i, 4);
                         daftar.setValueAt(hr1,i,5);
                     }else{
@@ -793,7 +785,7 @@ public class FormTransaksi extends javax.swing.JPanel {
 
                 if(peralihan == c){
                      model2.addRow (new Object[] {txtidtransaksi.getText(), idbr, namabr, hargabelibr, jumlah, total, sekarang});
-                     
+                     tabel.setValueAt(pngrn, mclkx, 4);
                 }
                 peralihan= 0;
                 tambahtotalkeranjang();
@@ -821,10 +813,6 @@ public class FormTransaksi extends javax.swing.JPanel {
     }//GEN-LAST:event_btnResetMouseExited
 
     private void txtpembayaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpembayaranActionPerformed
-        Date date = new Date();
-        DateFormat formattanggal = new SimpleDateFormat("YYYY-MM-dd");
-        String sekarang = formattanggal.format(date);
-        
         int bayar = Integer.parseInt(txtpembayaran.getText());
         int totalharga = Integer.parseInt(txthargatotal.getText());
         
@@ -863,10 +851,6 @@ public class FormTransaksi extends javax.swing.JPanel {
     }//GEN-LAST:event_btnHitungMouseMoved
 
     private void btnHitungMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHitungMouseClicked
-        Date date = new Date();
-        DateFormat formattanggal = new SimpleDateFormat("YYYY-MM-dd");
-        String sekarang = formattanggal.format(date);
-        
         int bayar = Integer.parseInt(txtpembayaran.getText());
         int totalharga = Integer.parseInt(txthargatotal.getText());
         
@@ -1249,55 +1233,55 @@ public class FormTransaksi extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null,"Tidak dapat menambahkan barang!\nTambahkan nama pembeli terlebih dahulu","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
         }else{
             do{
-                 if(tabel.getValueAt(pl, 1).toString().equals(txtidbarang.getText())){
+                if(tabel.getValueAt(pl, 1).toString().equals(txtidbarang.getText())){
                     String idBarang = tabel.getValueAt(pl, 1).toString();
                     String namaBarang = tabel.getValueAt(pl,2).toString();
                     int hargaBarang = Integer.parseInt( tabel.getValueAt(pl, 3).toString());
-
                     int stok  = Integer.parseInt(tabel.getValueAt(pl, 4).toString());
-    //                String jumlah = txtjumlah.getText();
                     int jumlah1 = 1;
+                    int pngr = stok - jumlah1;
 
+                    if(stok <= 0 || jumlah1 > stok){
+                        JOptionPane.showMessageDialog(null, "Stok barang kurang atau barang tidak tersedia","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+                    }else{
+                        int total = jumlah1 * hargaBarang;
+                        txthargabeli.setText(String.valueOf(total));
 
+                        Date date = new Date();
+                        DateFormat formattanggal = new SimpleDateFormat("yyyy-MM-dd");
+                        String sekarang = formattanggal.format(date);
 
-                        if(stok <= 0 || jumlah1 > stok){
-                            JOptionPane.showMessageDialog(null, "Stok barang kurang atau barang tidak tersedia","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
-                        }else{
-                            int total = jumlah1 * hargaBarang;
-                            txthargabeli.setText(String.valueOf(total));
-
-                            Date date = new Date();
-                            DateFormat formattanggal = new SimpleDateFormat("yyyy-MM-dd");
-                            String sekarang = formattanggal.format(date);
-
-                            int c = daftar.getRowCount();
-                            int i = 0;
-                            do{
-                                if (c!= 0 && daftar.getValueAt(i, 1).toString().equals(txtidbarang.getText())){
-                                    int jml1 = Integer.parseInt(daftar.getValueAt(i, 4).toString());
-                                    int jml2 = jumlah1 + jml1;
-                                    int hr1 = jml2 * hargaBarang;
-                                    daftar.setValueAt(jml2, i, 4);
-                                    daftar.setValueAt(hr1,i,5);
-                                }else{
-                                    peralihan++;
-                                }
-                                i++;
-
-                            }while(i<c);
-
-                            if(peralihan == c){
-                                 model2.addRow (new Object[] {txtidtransaksi.getText(), idBarang, namaBarang, hargaBarang, jumlah1, total, sekarang});
+                        int c = daftar.getRowCount();
+                        int i = 0;
+                        do{
+                            if (c!= 0 && daftar.getValueAt(i, 1).toString().equals(txtidbarang.getText())){
+                                int jml1 = Integer.parseInt(daftar.getValueAt(i, 4).toString());
+                                int jml2 = jumlah1 + jml1;
+                                int hr1 = jml2 * hargaBarang;
+                                
+                                tabel.setValueAt(pngr, pl, 4);
+                                daftar.setValueAt(jml2, i, 4);
+                                daftar.setValueAt(hr1,i,5);
+                            }else{
+                                peralihan++;
                             }
-                            peralihan= 0;
-                            tambahtotalkeranjang();
-                            txtjumlah.setText(null);
-                            }
-                         } else {
-                            peralihanbarang++;
-                         }
+                            i++;
 
-                 pl++;
+                        }while(i<c);
+
+                        if(peralihan == c){
+                            model2.addRow (new Object[] {txtidtransaksi.getText(), idBarang, namaBarang, hargaBarang, jumlah1, total, sekarang});
+                            tabel.setValueAt(pngr, pl, 4);
+                        }
+                        peralihan= 0;
+                        tambahtotalkeranjang();
+                        txtjumlah.setText(null);
+                        }
+                } else {
+                    peralihanbarang++;
+                }
+
+                pl++;
             } while(pl < jmltabl);
         }
         if (peralihanbarang == jmltabl){
