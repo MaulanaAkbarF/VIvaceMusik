@@ -1,11 +1,17 @@
 /*
  * Author               : Kelompok A2
  * Matkul               : WSIBD, ManPro, IMK
- * Dikembangkan Tanggal : 14 April 2022 - 25 Mei 2022
- * Versi                : v3.4
+ * Dikembangkan Tanggal : 14 April 2022 - 4 Juni 2022
+ * Versi                : v1.0
  */
 
 package Form;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.Timer;
 
 public class MainForm extends javax.swing.JFrame {
     
@@ -15,43 +21,63 @@ public class MainForm extends javax.swing.JFrame {
     
     FormDashboard dashboard = new FormDashboard();
     FormBarang barang = new FormBarang();
+    FormBarangKaryawan barangkr = new FormBarangKaryawan();
     FormProdukmasuk produkmasuk = new FormProdukmasuk();
+    FormProdukmasukKaryawan produkmasukkr = new FormProdukmasukKaryawan();
     FormTransaksi transaksi = new FormTransaksi();
     FormSupplier supplier = new FormSupplier();
+    FormSupplierKaryawan supplierkr = new FormSupplierKaryawan();
     FormLaporan laporan = new FormLaporan();
     FormPengaturan pengaturan = new FormPengaturan();
+    FormPengaturanAdminKaryawan pengaturanak = new FormPengaturanAdminKaryawan();
     
     public boolean menu1 = true;
     public boolean menu2 = true;
     public boolean menu3 = true;
     public boolean menu4 = true;
+    public boolean menu5 = true;
+    public boolean menu6 = true;
+    public boolean menu7 = true;
+    public boolean menu8 = true;
     
     private void hubungan(){
         FormPanel.add(dashboard);
         FormPanel.add(barang);
+        FormPanel.add(barangkr);
         FormPanel.add(produkmasuk);
+        FormPanel.add(produkmasukkr);
         FormPanel.add(transaksi);
         FormPanel.add(supplier);
+        FormPanel.add(supplierkr);
         FormPanel.add(laporan);
         FormPanel.add(pengaturan);
+        FormPanel.add(pengaturanak);
         
         dashboard.setVisible(true);
         barang.setVisible(false);
+        barangkr.setVisible(false);
         produkmasuk.setVisible(false);
+        produkmasukkr.setVisible(false);
         transaksi.setVisible(false);
         supplier.setVisible(false);
+        supplierkr.setVisible(false);
         laporan.setVisible(false);
         pengaturan.setVisible(false);
+        pengaturanak.setVisible(false);
     }
     
     private void opsiMenu(){
         dashboard.setVisible(false);
         barang.setVisible(false);
+        barangkr.setVisible(false);
         produkmasuk.setVisible(false);
+        produkmasukkr.setVisible(false);
         transaksi.setVisible(false);
         supplier.setVisible(false);
+        supplierkr.setVisible(false);
         laporan.setVisible(false);
         pengaturan.setVisible(false);
+        pengaturanak.setVisible(false);
     }
     
     private void txthide(){
@@ -81,6 +107,153 @@ public class MainForm extends javax.swing.JFrame {
         txtPengaturan.setForeground(new java.awt.Color(153,153,153));
     }
     
+    private void waktu(){
+        ActionListener taskPerformer = new ActionListener() {
+
+        @Override
+            public void actionPerformed(ActionEvent evt) {
+                
+            //Variabel (Harus berada pada method Action Event)
+            String nol_jam = "", nol_menit = "",nol_detik = "";
+            Date now = new Date(); //import java.util.Date
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE, dd-MM-yyyy");
+
+            //Waktu
+            java.util.Date dateTime = new java.util.Date();
+            int nilai_jam = dateTime.getHours();
+            int nilai_menit = dateTime.getMinutes();
+            int nilai_detik = dateTime.getSeconds();
+
+            if(nilai_jam <= 9) nol_jam= "0";
+            if(nilai_menit <= 9) nol_menit= "0";
+            if(nilai_detik <= 9) nol_detik= "0";
+
+            String jam = nol_jam + Integer.toString(nilai_jam);
+            String menit = nol_menit + Integer.toString(nilai_menit);
+            String detik = nol_detik + Integer.toString(nilai_detik);
+
+            txtwaktu.setText(jam+": "+menit+": "+detik+"");
+            txtwaktu1.setText(jam+": "+menit+": "+detik+"");
+            
+            // Tanggal
+            txttanggal.setText(simpleDateFormat.format(now));
+            txttanggal1.setText(simpleDateFormat.format(now));
+            }
+        };
+    new Timer(1000, taskPerformer).start(); //1000 = 1 detik
+    }
+    
+    public void refreshPengaturan(){
+        ActionListener taskPerformer = (ActionEvent evt) -> {
+            
+            // Hak Akses
+            if (hakakses.getText().equals("Pemilik")){
+                pengaturanak.btnTWTOFF.setText("OFF");
+                pengaturanak.btnTSOFF.setText("OFF");
+                pengaturanak.btnTSON.setText(null);
+                pengaturanak.btnSOUON.setText("ON");
+            } else if (hakakses.getText().equals("Administrator") || hakakses.getText().equals("Karyawan")){
+                pengaturan.btnTWTOFF.setText("OFF");
+                pengaturan.btnTSOFF.setText("OFF");
+                pengaturan.btnTSON.setText(null);
+                pengaturan.btnSOGON.setText(null);
+                pengaturan.btnSOGOFF.setText("OFF");
+                pengaturan.btnSOUON.setText("ON");
+                pengaturan.btnSOUOFF.setText(null);
+            }
+            
+            // Tampilkan Waktu dan Tanggal
+            if (pengaturan.btnTWTON.getText()==null){
+                txtwaktu.setVisible(false);
+                txttanggal.setVisible(false);
+            } else {
+                txtwaktu.setVisible(true);
+                txttanggal.setVisible(true);
+            }
+            
+            // Tampilkan Waktu dan Tanggal PAK
+            if (pengaturanak.btnTWTON.getText()==null){
+                txtwaktu1.setVisible(false);
+                txttanggal1.setVisible(false);
+            } else if (pengaturanak.btnTWTON.getText().equals("ON")){
+                txtwaktu1.setVisible(true);
+                txttanggal1.setVisible(true);
+            }
+            
+            // Tampilkan Username
+            if (pengaturan.btnTSON.getText()==null){
+                userinfo.setVisible(false);
+            } else {
+                userinfo.setVisible(true);
+            }
+            
+            // Tampilkan Username PAK
+            if (pengaturanak.btnTSON.getText()==null){
+                userinfo1.setVisible(false);
+            } else {
+                userinfo1.setVisible(true);
+            }
+            
+            // Sembunyikan Opsi Grafik
+            if (pengaturan.btnSOGON.getText()==null){
+                dashboard.txttampilkan.setVisible(true);
+                dashboard.dashboardcb.setVisible(true);
+                
+                laporan.txttampilkan.setVisible(true);
+                laporan.dashboardcb.setVisible(true);
+                
+            } else {
+                dashboard.txttampilkan.setVisible(false);
+                dashboard.dashboardcb.setVisible(false);
+//                dashboard.panelE.setVisible(false);
+                laporan.txttampilkan.setVisible(false);
+                laporan.dashboardcb.setVisible(false);
+//                laporan.panelE.setVisible(false);
+            }
+            
+            // Sembunyikan Opsi Urutkan
+            if (pengaturan.btnSOUON.getText()==null){
+                barang.teksbarang.setVisible(true);
+                barang.barangcb.setVisible(true);
+                supplier.tekssupplier.setVisible(true);
+                supplier.suppliercb.setVisible(true);
+            } else {
+                barang.teksbarang.setVisible(false);
+                barang.barangcb.setVisible(false);
+                supplier.tekssupplier.setVisible(false);
+                supplier.suppliercb.setVisible(false);
+            }
+            
+            // Sembunyikan Opsi Urutkan PAK
+            if (pengaturanak.btnSOUON.getText()==null){
+                barang.teksbarang1.setVisible(true);
+                barang.barangcb1.setVisible(true);
+                supplier.tekssupplier1.setVisible(true);
+                supplier.suppliercb1.setVisible(true);
+            } else {
+                barang.teksbarang1.setVisible(false);
+                barang.barangcb1.setVisible(false);
+                supplier.tekssupplier1.setVisible(false);
+                supplier.suppliercb1.setVisible(false);
+            }
+            
+            // Logout
+            if (pengaturan.txtLogout.getText().equals("logout")){
+                this.setVisible(false);
+                new Login().setVisible(true);
+                pengaturan.txtLogout.setText("login");
+            }
+            
+            // Logout PAK
+            if (pengaturanak.txtLogout.getText().equals("logout")){
+                this.setVisible(false);
+                new Login().setVisible(true);
+                pengaturanak.txtLogout.setText("login");
+            }
+        };
+    new Timer(100, taskPerformer).start();
+    }
+    
     /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     Akhir Deklarasi Method Fungsi
     */ 
@@ -88,6 +261,10 @@ public class MainForm extends javax.swing.JFrame {
     public MainForm() {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);
+        hakakses.setVisible(false);
+//        pengaturanitem_hak();
+        refreshPengaturan();
+        waktu();
         txthide();
         hubungan();
         dsON.setText("on");
@@ -117,7 +294,12 @@ public class MainForm extends javax.swing.JFrame {
         txtPengaturan = new javax.swing.JLabel();
         LogoVivace = new javax.swing.JLabel();
         txtversion = new javax.swing.JLabel();
+        txtwaktu = new javax.swing.JLabel();
+        txttanggal = new javax.swing.JLabel();
+        txtwaktu1 = new javax.swing.JLabel();
+        txttanggal1 = new javax.swing.JLabel();
         bacgroundsisikanan = new javax.swing.JLabel();
+        hakakses = new javax.swing.JTextField();
         dsON = new javax.swing.JTextField();
         brON = new javax.swing.JTextField();
         pmON = new javax.swing.JTextField();
@@ -318,14 +500,38 @@ public class MainForm extends javax.swing.JFrame {
         MenuPanel.add(userinfo);
         userinfo.setBounds(40, 240, 230, 40);
 
-        txtversion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        txtversion.setText(" v3.4");
+        userinfo1.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
+        userinfo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/usericon.png"))); // NOI18N
+        userinfo1.setText("   Hai, Developers!");
+        MenuPanel.add(userinfo1);
+        userinfo1.setBounds(40, 240, 230, 40);
+
+        txtversion.setFont(new java.awt.Font("Monotype Corsiva", 0, 14)); // NOI18N
+        txtversion.setText(" v1.0");
         MenuPanel.add(txtversion);
-        txtversion.setBounds(10, 980, 34, 14);
+        txtversion.setBounds(254, 980, 30, 14);
+
+        txtwaktu.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        MenuPanel.add(txtwaktu);
+        txtwaktu.setBounds(30, 890, 190, 30);
+
+        txttanggal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        MenuPanel.add(txttanggal);
+        txttanggal.setBounds(30, 924, 240, 30);
+
+        txtwaktu1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        MenuPanel.add(txtwaktu1);
+        txtwaktu1.setBounds(30, 890, 190, 30);
+
+        txttanggal1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        MenuPanel.add(txttanggal1);
+        txttanggal1.setBounds(30, 924, 240, 30);
 
         bacgroundsisikanan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Frame Menu.png"))); // NOI18N
         MenuPanel.add(bacgroundsisikanan);
         bacgroundsisikanan.setBounds(0, 0, 320, 1010);
+        MenuPanel.add(hakakses);
+        hakakses.setBounds(0, 0, 300, 20);
 
         dsON.setText("jTextField1");
         MenuPanel.add(dsON);
@@ -381,11 +587,17 @@ public class MainForm extends javax.swing.JFrame {
             MenuDashboard.setBackground(new java.awt.Color(194,184,156));
             txtDashboard.setForeground(new java.awt.Color(0,0,0));
         }
+        if (pengaturan.btnSOGOFF.getText()==null){
+            dashboard.panelD.setVisible(true);
+            dashboard.panelE.setVisible(false);
+            dashboard.dashboardcb.setSelectedIndex(0);
+        }
     }//GEN-LAST:event_MenuDashboardMouseClicked
 
     private void MenuBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuBarangMouseClicked
         opsiMenu();
         barang.setVisible(menu1);
+        barangkr.setVisible(menu5);
         dsON.setText("off");
         brON.setText("on");
         pmON.setText("off");
@@ -398,11 +610,14 @@ public class MainForm extends javax.swing.JFrame {
             MenuBarang.setBackground(new java.awt.Color(194,184,156));
             txtBarang.setForeground(new java.awt.Color(0,0,0));
         }
+        barang.kosongkan();
+        barang.txtstok.setEnabled(true);
     }//GEN-LAST:event_MenuBarangMouseClicked
 
     private void MenuProdukmasukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuProdukmasukMouseClicked
         opsiMenu();
         produkmasuk.setVisible(menu2);
+        produkmasukkr.setVisible(menu8);
         dsON.setText("off");
         brON.setText("off");
         pmON.setText("on");
@@ -437,6 +652,7 @@ public class MainForm extends javax.swing.JFrame {
     private void MenuSupplierMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuSupplierMouseClicked
         opsiMenu();
         supplier.setVisible(menu3);
+        supplierkr.setVisible(menu6);
         dsON.setText("off");
         brON.setText("off");
         pmON.setText("off");
@@ -449,6 +665,7 @@ public class MainForm extends javax.swing.JFrame {
             MenuSupplier.setBackground(new java.awt.Color(194,184,156));
             txtSupplier.setForeground(new java.awt.Color(0,0,0));
         }
+        supplier.kosongkan();
     }//GEN-LAST:event_MenuSupplierMouseClicked
 
     private void MenuLaporanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuLaporanMouseClicked
@@ -466,11 +683,19 @@ public class MainForm extends javax.swing.JFrame {
             MenuLaporan.setBackground(new java.awt.Color(194,184,156));
             txtLaporan.setForeground(new java.awt.Color(0,0,0));
         }
+        if (pengaturan.btnSOGOFF.getText()==null){
+            laporan.panelLT.setVisible(true);
+            laporan.panelE.setVisible(false);
+            laporan.Laporancb.setVisible(true);
+            laporan.Laporancb.setSelectedIndex(0);
+            laporan.dashboardcb.setSelectedIndex(0);
+        }
     }//GEN-LAST:event_MenuLaporanMouseClicked
 
     private void MenuPengaturanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuPengaturanMouseClicked
         opsiMenu();
         pengaturan.setVisible(menu4);
+        pengaturanak.setVisible(menu7);
         dsON.setText("off");
         brON.setText("off");
         pmON.setText("off");
@@ -482,6 +707,10 @@ public class MainForm extends javax.swing.JFrame {
         if (stON.getText().equals("on")){
             MenuPengaturan.setBackground(new java.awt.Color(194,184,156));
             txtPengaturan.setForeground(new java.awt.Color(0,0,0));
+        }
+        if (hakakses.getText().equals("Karyawan")){
+            pengaturanak.teksINFA.setVisible(false);
+            pengaturanak.btnINFAEdit.setVisible(false);
         }
     }//GEN-LAST:event_MenuPengaturanMouseClicked
 
@@ -621,6 +850,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel bacgroundsisikanan;
     private javax.swing.JTextField brON;
     private javax.swing.JTextField dsON;
+    protected javax.swing.JTextField hakakses;
     private javax.swing.JTextField lpON;
     private javax.swing.JTextField pmON;
     private javax.swing.JTextField spON;
@@ -633,7 +863,12 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel txtProdukmasuk;
     private javax.swing.JLabel txtSupplier;
     private javax.swing.JLabel txtTransaksi;
-    private javax.swing.JLabel txtversion;
+    private javax.swing.JLabel txttanggal;
+    private javax.swing.JLabel txttanggal1;
+    public javax.swing.JLabel txtversion;
+    private javax.swing.JLabel txtwaktu;
+    private javax.swing.JLabel txtwaktu1;
     public static final javax.swing.JLabel userinfo = new javax.swing.JLabel();
+    public static final javax.swing.JLabel userinfo1 = new javax.swing.JLabel();
     // End of variables declaration//GEN-END:variables
 }

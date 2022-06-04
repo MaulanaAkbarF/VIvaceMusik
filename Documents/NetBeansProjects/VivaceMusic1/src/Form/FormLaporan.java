@@ -26,6 +26,11 @@ import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
+import java.io.*;
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.*;
+import javax.swing.ImageIcon;
+import javax.swing.JTable;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -148,10 +153,9 @@ public class FormLaporan extends javax.swing.JPanel {
         try{
                 File f = path.getSelectedFile();
                 location = f.getAbsolutePath();
-                filename = location + "_" + date +".xls";
-                txtlokasiLP.setText(filename);
+                txtlokasiLP.setText(location + "_" + date +".xls");
         }catch(Exception e){
-                JOptionPane.showMessageDialog(null, e);
+                JOptionPane.showMessageDialog(null, "Perintah tidak valid/dibatalkan.","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
         }
     }
     
@@ -162,10 +166,35 @@ public class FormLaporan extends javax.swing.JPanel {
         try{
                 File f = path.getSelectedFile();
                 location = f.getAbsolutePath();
-                filename = location + "_" + date +".xls";
-                txtlokasiLSM.setText(filename);
+                txtlokasiLSM.setText(location + "_" + date +".xls");
         }catch(Exception e){
-                JOptionPane.showMessageDialog(null, e);
+                JOptionPane.showMessageDialog(null, "Perintah tidak valid/dibatalkan.","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+        }
+    }
+    
+    private void fileChooserLPPDF(){
+        JFileChooser path = new JFileChooser();
+        path.showOpenDialog(this);
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        try{
+                File f = path.getSelectedFile();
+                location = f.getAbsolutePath();
+                txtlokasiLPPDF.setText(location + "_" + date +".xls");
+        }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Perintah tidak valid/dibatalkan.","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+        }
+    }
+    
+    private void fileChooserLSMPDF(){
+        JFileChooser path = new JFileChooser();
+        path.showOpenDialog(this);
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        try{
+                File f = path.getSelectedFile();
+                location = f.getAbsolutePath();
+                txtlokasiLSMPDF.setText(location + "_" + date +".xls");
+        }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Perintah tidak valid/dibatalkan.","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
         }
     }
     
@@ -196,6 +225,72 @@ public class FormLaporan extends javax.swing.JPanel {
             //set grafik di panel 
             ChartPanel panel = new ChartPanel(grafik);
             GrafikPanel.add(panel);
+            panel.setPreferredSize(new Dimension(1445, 174));
+            panel.setVisible(true);
+        } catch(SQLException e){
+            System.out.println(e);
+        }}
+    
+    private void Grafik1(){
+        try{
+            //tanggal
+            Date date = new Date();
+            DateFormat formattanggal = new SimpleDateFormat("YYYY-MM-dd");
+            Calendar cal =Calendar.getInstance();
+            cal.add(Calendar.MONTH, -12);
+            String sekarang = formattanggal.format(date);
+            String satuTahunLalu = formattanggal.format(cal.getTime());
+            
+            //query
+            String query = "SELECT tanggal, SUM(jumlah) AS total FROM detail_transaksi WHERE tanggal BETWEEN '"+satuTahunLalu+"' AND '"+sekarang+"' GROUP BY tanggal";
+            JDBCCategoryDataset dataset = new JDBCCategoryDataset(Config.configDB(), query);
+            JFreeChart grafik = ChartFactory.createLineChart("", "Bulan", "Jumlah", dataset, PlotOrientation.VERTICAL, false, true, true);
+            
+            //set warna background
+            Color au = new Color(244, 239, 239);
+            grafik.getPlot().setBackgroundPaint(au);
+            grafik.setBackgroundPaint(au);
+            
+            //ganti warna garis
+            CategoryPlot plot = (CategoryPlot) grafik.getPlot();
+            plot.getRenderer().setSeriesPaint(0, Color.DARK_GRAY);
+            
+            //set grafik di panel 
+            ChartPanel panel = new ChartPanel(grafik);
+            GrafikPanel1.add(panel);
+            panel.setPreferredSize(new Dimension(1445, 174));
+            panel.setVisible(true);
+        } catch(SQLException e){
+            System.out.println(e);
+        }}
+    
+    private void Grafik2(){
+        try{
+            //tanggal
+            Date date = new Date();
+            DateFormat formattanggal = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar cal =Calendar.getInstance();
+            cal.add(Calendar.MONTH, -12);
+            String sekarang = formattanggal.format(date);
+            String satuTahunLalu = formattanggal.format(cal.getTime());
+            
+            //query
+            String query = "SELECT tanggal, SUM(totalharga) AS total FROM detail_transaksi WHERE tanggal BETWEEN '"+satuTahunLalu+"' AND '"+sekarang+"' GROUP BY tanggal";
+            JDBCCategoryDataset dataset = new JDBCCategoryDataset(Config.configDB(), query);
+            JFreeChart grafik = ChartFactory.createLineChart("", "Bulan", "Jumlah", dataset, PlotOrientation.VERTICAL, false, true, true);
+            
+            //set warna background
+            Color au = new Color(244, 239, 239);
+            grafik.getPlot().setBackgroundPaint(au);
+            grafik.setBackgroundPaint(au);
+            
+            //ganti warna garis
+            CategoryPlot plot = (CategoryPlot) grafik.getPlot();
+            plot.getRenderer().setSeriesPaint(0, Color.DARK_GRAY);
+            
+            //set grafik di panel 
+            ChartPanel panel = new ChartPanel(grafik);
+            GrafikPanel2.add(panel);
             panel.setPreferredSize(new Dimension(1445, 174));
             panel.setVisible(true);
         } catch(SQLException e){
@@ -386,6 +481,11 @@ public class FormLaporan extends javax.swing.JPanel {
         TampilkanBarangterjual();
         TampilkanBarangdibeli();
         Grafik();
+        Grafik1();
+        Grafik2();
+        panelE.setVisible(false);
+        GrafikPanel1.setVisible(false);
+        GrafikPanel2.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -397,12 +497,15 @@ public class FormLaporan extends javax.swing.JPanel {
         angkapenjualan1thn = new javax.swing.JLabel();
         textpenjualan1hr = new javax.swing.JLabel();
         angkapembelian1thn = new javax.swing.JLabel();
-        textpembeli = new javax.swing.JLabel();
         angkabrterjual = new javax.swing.JLabel();
         textstok = new javax.swing.JLabel();
         angkadibeli = new javax.swing.JLabel();
         textstokmasuk = new javax.swing.JLabel();
         textpembeli1 = new javax.swing.JLabel();
+        txtgrafik = new javax.swing.JLabel();
+        txttampilkan = new javax.swing.JLabel();
+        dashboardcb = new javax.swing.JComboBox<>();
+        GrafikPanel1 = new javax.swing.JPanel();
         GrafikPanel = new javax.swing.JPanel();
         bgLT = new javax.swing.JLabel();
         panelLP = new javax.swing.JPanel();
@@ -414,7 +517,9 @@ public class FormLaporan extends javax.swing.JPanel {
         btnUbahLP = new javax.swing.JLabel();
         btnEksporLP = new javax.swing.JLabel();
         txtlokasiLP = new javax.swing.JTextField();
-        btnCetakLP = new javax.swing.JLabel();
+        btnUbahLPPDF = new javax.swing.JLabel();
+        btnEksporLPPDF = new javax.swing.JLabel();
+        txtlokasiLPPDF = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelLP = new javax.swing.JTable();
         bgLP = new javax.swing.JLabel();
@@ -427,10 +532,18 @@ public class FormLaporan extends javax.swing.JPanel {
         btnUbahLSM = new javax.swing.JLabel();
         btnEksporLSM = new javax.swing.JLabel();
         txtlokasiLSM = new javax.swing.JTextField();
-        btnCetakLSM = new javax.swing.JLabel();
+        btnUbahLSMPDF = new javax.swing.JLabel();
+        btnEksporLSMPDF = new javax.swing.JLabel();
+        txtlokasiLSMPDF = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelLSM = new javax.swing.JTable();
         bgLSM = new javax.swing.JLabel();
+        panelE = new javax.swing.JPanel();
+        txtgrafik1 = new javax.swing.JLabel();
+        txttampilkan1 = new javax.swing.JLabel();
+        dashboardcb1 = new javax.swing.JComboBox<>();
+        GrafikPanel2 = new javax.swing.JPanel();
+        bgDashboard1 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -458,10 +571,6 @@ public class FormLaporan extends javax.swing.JPanel {
         angkapembelian1thn.setText("Rp.0,0");
         panelLT.add(angkapembelian1thn, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 460, 640, 50));
 
-        textpembeli.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        textpembeli.setText("Grafik Penjualan Selama 12 Bulan Terakhir");
-        panelLT.add(textpembeli, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 660, 490, -1));
-
         angkabrterjual.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         angkabrterjual.setText("0 Barang");
         panelLT.add(angkabrterjual, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 210, 640, 80));
@@ -484,6 +593,30 @@ public class FormLaporan extends javax.swing.JPanel {
         textpembeli1.setForeground(new java.awt.Color(130, 130, 130));
         textpembeli1.setText("Pembelian Selama Satu Tahun");
         panelLT.add(textpembeli1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 520, 490, -1));
+
+        txtgrafik.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtgrafik.setText("Grafik Pembeli Selama 12 Bulan");
+        panelLT.add(txtgrafik, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 660, 490, -1));
+
+        txttampilkan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txttampilkan.setText("Tampilkan :");
+        panelLT.add(txttampilkan, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 660, 100, 25));
+
+        dashboardcb.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        dashboardcb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Grafik Pembeli Selama 12 Bulan", "Grafik Barang Terjual Selama 12 Bulan", "Grafik Total Penjualan Selama 12 Bulan" }));
+        dashboardcb.setBorder(null);
+        dashboardcb.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        dashboardcb.setOpaque(false);
+        dashboardcb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dashboardcbActionPerformed(evt);
+            }
+        });
+        panelLT.add(dashboardcb, new org.netbeans.lib.awtextra.AbsoluteConstraints(1124, 657, 370, 30));
+
+        GrafikPanel1.setOpaque(false);
+        GrafikPanel1.setLayout(new javax.swing.BoxLayout(GrafikPanel1, javax.swing.BoxLayout.LINE_AXIS));
+        panelLT.add(GrafikPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 700, 1450, 230));
 
         GrafikPanel.setOpaque(false);
         GrafikPanel.setLayout(new javax.swing.BoxLayout(GrafikPanel, javax.swing.BoxLayout.LINE_AXIS));
@@ -559,6 +692,7 @@ public class FormLaporan extends javax.swing.JPanel {
         btnUbahLP.setForeground(new java.awt.Color(95, 95, 95));
         btnUbahLP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnUbahLP.setText("UBAH");
+        btnUbahLP.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         btnUbahLP.setPreferredSize(new java.awt.Dimension(104, 36));
         btnUbahLP.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
@@ -573,12 +707,13 @@ public class FormLaporan extends javax.swing.JPanel {
                 btnUbahLPMouseExited(evt);
             }
         });
-        panelLP.add(btnUbahLP, new org.netbeans.lib.awtextra.AbsoluteConstraints(319, 899, 120, 40));
+        panelLP.add(btnUbahLP, new org.netbeans.lib.awtextra.AbsoluteConstraints(373, 904, 120, 30));
 
         btnEksporLP.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
         btnEksporLP.setForeground(new java.awt.Color(95, 95, 95));
         btnEksporLP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnEksporLP.setText("EKSPOR");
+        btnEksporLP.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         btnEksporLP.setPreferredSize(new java.awt.Dimension(104, 36));
         btnEksporLP.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
@@ -593,32 +728,60 @@ public class FormLaporan extends javax.swing.JPanel {
                 btnEksporLPMouseExited(evt);
             }
         });
-        panelLP.add(btnEksporLP, new org.netbeans.lib.awtextra.AbsoluteConstraints(469, 899, 120, 40));
+        panelLP.add(btnEksporLP, new org.netbeans.lib.awtextra.AbsoluteConstraints(519, 904, 120, 30));
 
         txtlokasiLP.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         txtlokasiLP.setBorder(null);
         txtlokasiLP.setOpaque(false);
-        panelLP.add(txtlokasiLP, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 940, 530, 40));
+        panelLP.add(txtlokasiLP, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 940, 580, 40));
 
-        btnCetakLP.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
-        btnCetakLP.setForeground(new java.awt.Color(95, 95, 95));
-        btnCetakLP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnCetakLP.setText("CETAK LAPORAN");
-        btnCetakLP.setPreferredSize(new java.awt.Dimension(104, 36));
-        btnCetakLP.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+        btnUbahLPPDF.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
+        btnUbahLPPDF.setForeground(new java.awt.Color(95, 95, 95));
+        btnUbahLPPDF.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnUbahLPPDF.setText("UBAH");
+        btnUbahLPPDF.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        btnUbahLPPDF.setPreferredSize(new java.awt.Dimension(104, 36));
+        btnUbahLPPDF.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
-                btnCetakLPMouseMoved(evt);
+                btnUbahLPPDFMouseMoved(evt);
             }
         });
-        btnCetakLP.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnUbahLPPDF.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnCetakLPMouseClicked(evt);
+                btnUbahLPPDFMouseClicked(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnCetakLPMouseExited(evt);
+                btnUbahLPPDFMouseExited(evt);
             }
         });
-        panelLP.add(btnCetakLP, new org.netbeans.lib.awtextra.AbsoluteConstraints(1347, 905, 181, 75));
+        panelLP.add(btnUbahLPPDF, new org.netbeans.lib.awtextra.AbsoluteConstraints(1264, 904, 120, 30));
+
+        btnEksporLPPDF.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
+        btnEksporLPPDF.setForeground(new java.awt.Color(95, 95, 95));
+        btnEksporLPPDF.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnEksporLPPDF.setText("EKSPOR");
+        btnEksporLPPDF.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        btnEksporLPPDF.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEksporLPPDF.setPreferredSize(new java.awt.Dimension(104, 36));
+        btnEksporLPPDF.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                btnEksporLPPDFMouseMoved(evt);
+            }
+        });
+        btnEksporLPPDF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEksporLPPDFMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnEksporLPPDFMouseExited(evt);
+            }
+        });
+        panelLP.add(btnEksporLPPDF, new org.netbeans.lib.awtextra.AbsoluteConstraints(1410, 904, 120, 30));
+
+        txtlokasiLPPDF.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        txtlokasiLPPDF.setBorder(null);
+        txtlokasiLPPDF.setOpaque(false);
+        panelLP.add(txtlokasiLPPDF, new org.netbeans.lib.awtextra.AbsoluteConstraints(939, 940, 580, 40));
 
         tabelLP.setBackground(new java.awt.Color(244, 239, 224));
         tabelLP.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -711,6 +874,7 @@ public class FormLaporan extends javax.swing.JPanel {
         btnUbahLSM.setForeground(new java.awt.Color(95, 95, 95));
         btnUbahLSM.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnUbahLSM.setText("UBAH");
+        btnUbahLSM.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         btnUbahLSM.setPreferredSize(new java.awt.Dimension(104, 36));
         btnUbahLSM.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
@@ -725,12 +889,13 @@ public class FormLaporan extends javax.swing.JPanel {
                 btnUbahLSMMouseExited(evt);
             }
         });
-        panelLSM.add(btnUbahLSM, new org.netbeans.lib.awtextra.AbsoluteConstraints(319, 899, 120, 40));
+        panelLSM.add(btnUbahLSM, new org.netbeans.lib.awtextra.AbsoluteConstraints(373, 904, 120, 30));
 
         btnEksporLSM.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
         btnEksporLSM.setForeground(new java.awt.Color(95, 95, 95));
         btnEksporLSM.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnEksporLSM.setText("EKSPOR");
+        btnEksporLSM.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         btnEksporLSM.setPreferredSize(new java.awt.Dimension(104, 36));
         btnEksporLSM.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
@@ -745,32 +910,60 @@ public class FormLaporan extends javax.swing.JPanel {
                 btnEksporLSMMouseExited(evt);
             }
         });
-        panelLSM.add(btnEksporLSM, new org.netbeans.lib.awtextra.AbsoluteConstraints(469, 899, 120, 40));
+        panelLSM.add(btnEksporLSM, new org.netbeans.lib.awtextra.AbsoluteConstraints(519, 904, 120, 30));
 
         txtlokasiLSM.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         txtlokasiLSM.setBorder(null);
         txtlokasiLSM.setOpaque(false);
-        panelLSM.add(txtlokasiLSM, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 940, 530, 40));
+        panelLSM.add(txtlokasiLSM, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 940, 580, 40));
 
-        btnCetakLSM.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
-        btnCetakLSM.setForeground(new java.awt.Color(95, 95, 95));
-        btnCetakLSM.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnCetakLSM.setText("CETAK LAPORAN");
-        btnCetakLSM.setPreferredSize(new java.awt.Dimension(104, 36));
-        btnCetakLSM.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+        btnUbahLSMPDF.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
+        btnUbahLSMPDF.setForeground(new java.awt.Color(95, 95, 95));
+        btnUbahLSMPDF.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnUbahLSMPDF.setText("UBAH");
+        btnUbahLSMPDF.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        btnUbahLSMPDF.setPreferredSize(new java.awt.Dimension(104, 36));
+        btnUbahLSMPDF.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
-                btnCetakLSMMouseMoved(evt);
+                btnUbahLSMPDFMouseMoved(evt);
             }
         });
-        btnCetakLSM.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnUbahLSMPDF.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnCetakLSMMouseClicked(evt);
+                btnUbahLSMPDFMouseClicked(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnCetakLSMMouseExited(evt);
+                btnUbahLSMPDFMouseExited(evt);
             }
         });
-        panelLSM.add(btnCetakLSM, new org.netbeans.lib.awtextra.AbsoluteConstraints(1347, 905, 181, 75));
+        panelLSM.add(btnUbahLSMPDF, new org.netbeans.lib.awtextra.AbsoluteConstraints(1264, 904, 120, 30));
+
+        btnEksporLSMPDF.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
+        btnEksporLSMPDF.setForeground(new java.awt.Color(95, 95, 95));
+        btnEksporLSMPDF.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnEksporLSMPDF.setText("EKSPOR");
+        btnEksporLSMPDF.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        btnEksporLSMPDF.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEksporLSMPDF.setPreferredSize(new java.awt.Dimension(104, 36));
+        btnEksporLSMPDF.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                btnEksporLSMPDFMouseMoved(evt);
+            }
+        });
+        btnEksporLSMPDF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEksporLSMPDFMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnEksporLSMPDFMouseExited(evt);
+            }
+        });
+        panelLSM.add(btnEksporLSMPDF, new org.netbeans.lib.awtextra.AbsoluteConstraints(1410, 904, 120, 30));
+
+        txtlokasiLSMPDF.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        txtlokasiLSMPDF.setBorder(null);
+        txtlokasiLSMPDF.setOpaque(false);
+        panelLSM.add(txtlokasiLSMPDF, new org.netbeans.lib.awtextra.AbsoluteConstraints(939, 940, 580, 40));
 
         tabelLSM.setBackground(new java.awt.Color(244, 239, 224));
         tabelLSM.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -798,6 +991,37 @@ public class FormLaporan extends javax.swing.JPanel {
         panelLSM.add(bgLSM, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         add(panelLSM, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1600, 1010));
+
+        panelE.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtgrafik1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtgrafik1.setText("Grafik Total Penjualan Selama 7 Hari");
+        panelE.add(txtgrafik1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 500, -1));
+
+        txttampilkan1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txttampilkan1.setText("Tampilkan :");
+        panelE.add(txttampilkan1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 70, 100, 25));
+
+        dashboardcb1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        dashboardcb1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Grafik Pembeli Selama 7 Hari", "Grafik Barang Terjual Selama 7 Hari", "Grafik Total Penjualan Selama 7 Hari" }));
+        dashboardcb1.setBorder(null);
+        dashboardcb1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        dashboardcb1.setOpaque(false);
+        dashboardcb1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dashboardcb1ActionPerformed(evt);
+            }
+        });
+        panelE.add(dashboardcb1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1124, 67, 370, 30));
+
+        GrafikPanel2.setOpaque(false);
+        GrafikPanel2.setLayout(new javax.swing.BoxLayout(GrafikPanel2, javax.swing.BoxLayout.LINE_AXIS));
+        panelE.add(GrafikPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 1450, 830));
+
+        bgDashboard1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Form Expand.png"))); // NOI18N
+        panelE.add(bgDashboard1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        add(panelE, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1600, 1010));
     }// </editor-fold>//GEN-END:initComponents
 
     private void LaporancbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LaporancbActionPerformed
@@ -980,8 +1204,11 @@ public class FormLaporan extends javax.swing.JPanel {
 
     private void btnEksporLPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEksporLPMouseClicked
         tabelLP.setModel(model);
+        if (txtlokasiLP.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Data Gagal di Export ke Excel!\nHarap Pilih lokasi penyimpanan file Excel ","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+        } else {
         try{
-            WritableWorkbook write = Workbook.createWorkbook(new File(filename));
+            WritableWorkbook write = Workbook.createWorkbook(new File(txtlokasiLP.getText()));
             WritableSheet sheet = write.createSheet("export-data",0);
             sheet.addCell(new Label(0,0,"ID Transaksi"));
             sheet.addCell(new Label(1,0,"ID Pembeli"));
@@ -1005,9 +1232,10 @@ public class FormLaporan extends javax.swing.JPanel {
             }
             write.write();
             write.close();
-            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan dalam Bentuk Excel");
+            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan dalam Bentuk Excel","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/approvedicon.png"));
         }catch(HeadlessException | IOException | WriteException e){
             JOptionPane.showMessageDialog(null, "Data Gagal Disimpan!!!"+e.toString());
+        }
         }
     }//GEN-LAST:event_btnEksporLPMouseClicked
 
@@ -1033,8 +1261,11 @@ public class FormLaporan extends javax.swing.JPanel {
 
     private void btnEksporLSMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEksporLSMMouseClicked
         tabelLSM.setModel(model);
+        if (txtlokasiLSM.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Data Gagal di Export ke Excel!\nHarap Pilih lokasi penyimpanan file Excel ","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+        } else {
         try{
-            WritableWorkbook write = Workbook.createWorkbook(new File(filename));
+            WritableWorkbook write = Workbook.createWorkbook(new File(txtlokasiLSM.getText()));
             WritableSheet sheet = write.createSheet("export-data",0);
             sheet.addCell(new Label(0,0,"ID Produk Masuk"));
             sheet.addCell(new Label(1,0,"ID Supplier"));
@@ -1059,9 +1290,10 @@ public class FormLaporan extends javax.swing.JPanel {
             }
             write.write();
             write.close();
-            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan dalam Bentuk Excel");
+            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan dalam Bentuk Excel","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/approvedicon.png"));
         }catch(HeadlessException | IOException | WriteException e){
             JOptionPane.showMessageDialog(null, "Data Gagal Disimpan!!!"+e.toString());
+        }
         }
     }//GEN-LAST:event_btnEksporLSMMouseClicked
 
@@ -1069,70 +1301,288 @@ public class FormLaporan extends javax.swing.JPanel {
         btnEksporLSM.setForeground(new java.awt.Color(95,95,95));
     }//GEN-LAST:event_btnEksporLSMMouseExited
 
-    private void btnCetakLPMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCetakLPMouseMoved
-        btnCetakLP.setForeground(new java.awt.Color(0, 0, 0));
-    }//GEN-LAST:event_btnCetakLPMouseMoved
+    private void btnEksporLPPDFMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEksporLPPDFMouseMoved
+        btnEksporLPPDF.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btnEksporLPPDFMouseMoved
 
-    private void btnCetakLPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCetakLPMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCetakLPMouseClicked
+    // Fungsi getObject tabel Laporan
+    public Object getObject(JTable tabel,int baris,int kolom){
+        return tabelLP.getModel().getValueAt(baris, kolom);
+    }
+    
+    private void btnEksporLPPDFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEksporLPPDFMouseClicked
+        int count = tabelLP.getRowCount();
+        if (txtlokasiLPPDF.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Data Gagal di Export ke PDF!\nHarap Pilih lokasi penyimpanan file PDF ","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+        } else {
+        try {
+		Document doc = new Document();
+		PdfWriter.getInstance(doc, new FileOutputStream(txtlokasiLPPDF.getText()));
+		doc.open();
+		PdfPTable pdfTable = new PdfPTable(10);
+                pdfTable.addCell("No.");
+		pdfTable.addCell("ID Transaksi");
+		pdfTable.addCell("ID Pembeli");
+                pdfTable.addCell("Nama Pembeli");
+		pdfTable.addCell("ID Alat Musik");
+                pdfTable.addCell("Nama Alat Musik");
+		pdfTable.addCell("Harga");
+		pdfTable.addCell("Jumlah");
+                pdfTable.addCell("Total Harga");
+		pdfTable.addCell("Tanggal");
+                
+		for (int a = 0; a<count; a++) {
+			Object obj_0 = getObject(tabelLP, a, 0);
+			Object obj_1 = getObject(tabelLP, a, 1);
+			Object obj_2 = getObject(tabelLP, a, 2);
+                        Object obj_3 = getObject(tabelLP, a, 3);
+			Object obj_4 = getObject(tabelLP, a, 4);
+			Object obj_5 = getObject(tabelLP, a, 5);
+                        Object obj_6 = getObject(tabelLP, a, 6);
+			Object obj_7 = getObject(tabelLP, a, 7);
+                        Object obj_8 = getObject(tabelLP, a, 8);
+			Object obj_9 = getObject(tabelLP, a, 9);
+						
+			String i = obj_0.toString();
+			String j = obj_1.toString();
+			String k = obj_2.toString();
+                        String l = obj_3.toString();
+			String m = obj_4.toString();
+			String n = obj_5.toString();
+                        String o = obj_6.toString();
+			String p = obj_7.toString();
+                        String q = obj_8.toString();
+			String r = obj_9.toString();
+						
+			pdfTable.addCell(i);
+			pdfTable.addCell(j);
+			pdfTable.addCell(k);
+                        pdfTable.addCell(l);
+			pdfTable.addCell(m);
+			pdfTable.addCell(n);
+                        pdfTable.addCell(o);
+			pdfTable.addCell(p);
+                        pdfTable.addCell(q);
+			pdfTable.addCell(r);
+		}
+		doc.add(pdfTable);
+		doc.close();
+		JOptionPane.showMessageDialog(null,"Data berhasil di Export ke PDF ","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/approvedicon.png"));
+	} catch(Exception ex) {
+		System.out.println(ex);
+	}
+        }
+    }//GEN-LAST:event_btnEksporLPPDFMouseClicked
 
-    private void btnCetakLPMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCetakLPMouseExited
-        btnCetakLP.setForeground(new java.awt.Color(95,95,95));
-    }//GEN-LAST:event_btnCetakLPMouseExited
+    private void btnEksporLPPDFMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEksporLPPDFMouseExited
+        btnEksporLPPDF.setForeground(new java.awt.Color(95,95,95));
+    }//GEN-LAST:event_btnEksporLPPDFMouseExited
 
-    private void btnCetakLSMMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCetakLSMMouseMoved
-        btnCetakLSM.setForeground(new java.awt.Color(0, 0, 0));
-    }//GEN-LAST:event_btnCetakLSMMouseMoved
+    private void dashboardcbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardcbActionPerformed
+        if (dashboardcb.getSelectedIndex()==0){
+            txtgrafik.setText("Grafik Pembeli Selama 12 Bulan");
+            panelLT.setVisible(true);
+            panelE.setVisible(false);
+            //        dashboardcb.setSelectedIndex(0);
+            GrafikPanel.setVisible(true);
+            GrafikPanel1.setVisible(false);
+        }
+        if (dashboardcb.getSelectedIndex()==1){
+            txtgrafik.setText("Grafik Barang Terjual Selama 12 Bulan");
+            panelLT.setVisible(true);
+            panelE.setVisible(false);
+            //        dashboardcb.setSelectedIndex(1);
+            GrafikPanel.setVisible(false);
+            GrafikPanel1.setVisible(true);
+        }
+        if (dashboardcb.getSelectedIndex()==2){
+            txtgrafik1.setText("Grafik Total Penjualan Selama 12 Bulan");
+            panelLT.setVisible(false);
+            panelE.setVisible(true);
+            dashboardcb1.setSelectedIndex(2);
+            GrafikPanel2.setVisible(true);
+            Laporancb.setVisible(false);
+        }
+    }//GEN-LAST:event_dashboardcbActionPerformed
 
-    private void btnCetakLSMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCetakLSMMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCetakLSMMouseClicked
+    private void dashboardcb1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardcb1ActionPerformed
+        if (dashboardcb1.getSelectedIndex()==0){
+            txtgrafik.setText("Grafik Pembeli Selama 12 Bulan");
+            panelLT.setVisible(true);
+            panelE.setVisible(false);
+            dashboardcb.setSelectedIndex(0);
+            GrafikPanel.setVisible(true);
+            GrafikPanel1.setVisible(false);
+            Laporancb.setVisible(true);
+        }
+        if (dashboardcb1.getSelectedIndex()==1){
+            txtgrafik.setText("Grafik Barang Terjual Selama 12 Bulan");
+            panelLT.setVisible(true);
+            panelE.setVisible(false);
+            dashboardcb.setSelectedIndex(1);
+            GrafikPanel.setVisible(false);
+            GrafikPanel1.setVisible(true);
+            Laporancb.setVisible(true);
+        }
+        if (dashboardcb1.getSelectedIndex()==2){
+            txtgrafik1.setText("Grafik Total Penjualan Selama 12 Bulan");
+            panelLT.setVisible(false);
+            panelE.setVisible(true);
+            //        dashboardcb1.setSelectedIndex(2);
+            GrafikPanel2.setVisible(true);
+            Laporancb.setVisible(false);
+        }
+    }//GEN-LAST:event_dashboardcb1ActionPerformed
 
-    private void btnCetakLSMMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCetakLSMMouseExited
-        btnCetakLSM.setForeground(new java.awt.Color(95,95,95));
-    }//GEN-LAST:event_btnCetakLSMMouseExited
+    private void btnUbahLPPDFMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUbahLPPDFMouseMoved
+        btnUbahLPPDF.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btnUbahLPPDFMouseMoved
+
+    private void btnUbahLPPDFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUbahLPPDFMouseClicked
+        fileChooserLPPDF();
+    }//GEN-LAST:event_btnUbahLPPDFMouseClicked
+
+    private void btnUbahLPPDFMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUbahLPPDFMouseExited
+        btnUbahLPPDF.setForeground(new java.awt.Color(95,95,95));
+    }//GEN-LAST:event_btnUbahLPPDFMouseExited
+
+    private void btnUbahLSMPDFMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUbahLSMPDFMouseMoved
+        btnUbahLSMPDF.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btnUbahLSMPDFMouseMoved
+
+    private void btnUbahLSMPDFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUbahLSMPDFMouseClicked
+        fileChooserLSMPDF();
+    }//GEN-LAST:event_btnUbahLSMPDFMouseClicked
+
+    private void btnUbahLSMPDFMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUbahLSMPDFMouseExited
+        btnUbahLSMPDF.setForeground(new java.awt.Color(95,95,95));
+    }//GEN-LAST:event_btnUbahLSMPDFMouseExited
+
+    private void btnEksporLSMPDFMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEksporLSMPDFMouseMoved
+        btnEksporLSMPDF.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btnEksporLSMPDFMouseMoved
+
+    private void btnEksporLSMPDFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEksporLSMPDFMouseClicked
+        int count = tabelLP.getRowCount();
+        if (txtlokasiLSMPDF.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Data Gagal di Export ke PDF!\nHarap Pilih lokasi penyimpanan file PDF ","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+        } else {
+        try {
+		Document doc = new Document();
+		PdfWriter.getInstance(doc, new FileOutputStream(txtlokasiLSMPDF.getText()));
+		doc.open();
+		PdfPTable pdfTable = new PdfPTable(10);
+                pdfTable.addCell("No.");
+		pdfTable.addCell("ID Produk Masuk");
+		pdfTable.addCell("ID Supplier");
+                pdfTable.addCell("Nama Supplier");
+		pdfTable.addCell("ID Alat Musik");
+                pdfTable.addCell("Nama Alat Musik");
+		pdfTable.addCell("Harga Beli");
+		pdfTable.addCell("Stok Masuk");
+                pdfTable.addCell("Total Harga");
+		pdfTable.addCell("Tanggal");
+                
+		for (int a = 0; a<count; a++) {
+			Object obj_0 = getObject(tabelLP, a, 0);
+			Object obj_1 = getObject(tabelLP, a, 1);
+			Object obj_2 = getObject(tabelLP, a, 2);
+                        Object obj_3 = getObject(tabelLP, a, 3);
+			Object obj_4 = getObject(tabelLP, a, 4);
+			Object obj_5 = getObject(tabelLP, a, 5);
+                        Object obj_6 = getObject(tabelLP, a, 6);
+			Object obj_7 = getObject(tabelLP, a, 7);
+                        Object obj_8 = getObject(tabelLP, a, 8);
+			Object obj_9 = getObject(tabelLP, a, 9);
+						
+			String i = obj_0.toString();
+			String j = obj_1.toString();
+			String k = obj_2.toString();
+                        String l = obj_3.toString();
+			String m = obj_4.toString();
+			String n = obj_5.toString();
+                        String o = obj_6.toString();
+			String p = obj_7.toString();
+                        String q = obj_8.toString();
+			String r = obj_9.toString();
+						
+			pdfTable.addCell(i);
+			pdfTable.addCell(j);
+			pdfTable.addCell(k);
+                        pdfTable.addCell(l);
+			pdfTable.addCell(m);
+			pdfTable.addCell(n);
+                        pdfTable.addCell(o);
+			pdfTable.addCell(p);
+                        pdfTable.addCell(q);
+			pdfTable.addCell(r);
+		}
+		doc.add(pdfTable);
+		doc.close();
+		JOptionPane.showMessageDialog(null,"Data berhasil di Export ke PDF ","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/approvedicon.png"));
+	} catch(Exception ex) {
+		System.out.println(ex);
+	}
+        }
+    }//GEN-LAST:event_btnEksporLSMPDFMouseClicked
+
+    private void btnEksporLSMPDFMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEksporLSMPDFMouseExited
+        btnEksporLSMPDF.setForeground(new java.awt.Color(95,95,95));
+    }//GEN-LAST:event_btnEksporLSMPDFMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel GrafikPanel;
-    private javax.swing.JComboBox<String> Laporancb;
+    private javax.swing.JPanel GrafikPanel1;
+    private javax.swing.JPanel GrafikPanel2;
+    public javax.swing.JComboBox<String> Laporancb;
     private javax.swing.JLabel angkabrterjual;
     private javax.swing.JLabel angkadibeli;
     private javax.swing.JLabel angkapembelian1thn;
     private javax.swing.JLabel angkapenjualan1thn;
+    private javax.swing.JLabel bgDashboard1;
     private javax.swing.JLabel bgLP;
     private javax.swing.JLabel bgLSM;
     private javax.swing.JLabel bgLT;
     private javax.swing.JLabel btnCariLP;
     private javax.swing.JLabel btnCariLSM;
-    private javax.swing.JLabel btnCetakLP;
-    private javax.swing.JLabel btnCetakLSM;
     private javax.swing.JLabel btnEksporLP;
+    private javax.swing.JLabel btnEksporLPPDF;
     private javax.swing.JLabel btnEksporLSM;
+    private javax.swing.JLabel btnEksporLSMPDF;
     private javax.swing.JLabel btnTampilkanLP;
     private javax.swing.JLabel btnTampilkanLSM;
     private javax.swing.JLabel btnUbahLP;
+    private javax.swing.JLabel btnUbahLPPDF;
     private javax.swing.JLabel btnUbahLSM;
+    private javax.swing.JLabel btnUbahLSMPDF;
+    public javax.swing.JComboBox<String> dashboardcb;
+    private javax.swing.JComboBox<String> dashboardcb1;
     private com.toedter.calendar.JDateChooser date1LP;
     private com.toedter.calendar.JDateChooser date1LSM;
     private com.toedter.calendar.JDateChooser date2LP;
     private com.toedter.calendar.JDateChooser date2LSM;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    protected javax.swing.JPanel panelE;
     private javax.swing.JPanel panelLP;
     private javax.swing.JPanel panelLSM;
-    private javax.swing.JPanel panelLT;
+    protected javax.swing.JPanel panelLT;
     private javax.swing.JTable tabelLP;
     private javax.swing.JTable tabelLSM;
-    private javax.swing.JLabel textpembeli;
     private javax.swing.JLabel textpembeli1;
     private javax.swing.JLabel textpenjualan1hr;
     private javax.swing.JLabel textstok;
     private javax.swing.JLabel textstokmasuk;
     private javax.swing.JTextField txtCariLP;
     private javax.swing.JTextField txtCariLSM;
+    public javax.swing.JLabel txtgrafik;
+    private javax.swing.JLabel txtgrafik1;
     private javax.swing.JTextField txtlokasiLP;
+    private javax.swing.JTextField txtlokasiLPPDF;
     private javax.swing.JTextField txtlokasiLSM;
+    private javax.swing.JTextField txtlokasiLSMPDF;
+    public javax.swing.JLabel txttampilkan;
+    private javax.swing.JLabel txttampilkan1;
     // End of variables declaration//GEN-END:variables
 }

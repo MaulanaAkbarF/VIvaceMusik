@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e71dd928-b980-48ac-a23a-2a846b95dee5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     detail_transaksi.`idtransaksi` AS detail_transaksi_idtransaksi,
+     detail_transaksi.`idalatmusik` AS detail_transaksi_idalatmusik,
+     detail_transaksi.`harga` AS detail_transaksi_harga,
+     detail_transaksi.`jumlah` AS detail_transaksi_jumlah,
+     detail_transaksi.`totalharga` AS detail_transaksi_totalharga,
+     detail_transaksi.`tanggal` AS detail_transaksi_tanggal,
+     transaksi.`idtransaksi` AS transaksi_idtransaksi,
+     transaksi.`idpembeli` AS transaksi_idpembeli,
+     transaksi.`subtotal` AS transaksi_subtotal,
+     transaksi.`pembayaran` AS transaksi_pembayaran,
+     transaksi.`kembalian` AS transaksi_kembalian,
+     transaksi.`tanggal` AS transaksi_tanggal,
+     alatmusik.`idalatmusik` AS alatmusik_idalatmusik,
+     alatmusik.`namaalatmusik` AS alatmusik_namaalatmusik
+FROM
+     `transaksi` transaksi INNER JOIN `detail_transaksi` detail_transaksi ON transaksi.`idtransaksi` = detail_transaksi.`idtransaksi`
+     INNER JOIN `alatmusik` alatmusik ON detail_transaksi.`idalatmusik` = alatmusik.`idalatmusik`]]>
+	</queryString>
+	<field name="detail_transaksi_idtransaksi" class="java.lang.String"/>
+	<field name="detail_transaksi_idalatmusik" class="java.lang.String"/>
+	<field name="detail_transaksi_harga" class="java.lang.Long"/>
+	<field name="detail_transaksi_jumlah" class="java.lang.Integer"/>
+	<field name="detail_transaksi_totalharga" class="java.lang.Long"/>
+	<field name="detail_transaksi_tanggal" class="java.sql.Date"/>
+	<field name="transaksi_idtransaksi" class="java.lang.String"/>
+	<field name="transaksi_idpembeli" class="java.lang.String"/>
+	<field name="transaksi_subtotal" class="java.lang.Long"/>
+	<field name="transaksi_pembayaran" class="java.lang.Long"/>
+	<field name="transaksi_kembalian" class="java.lang.Long"/>
+	<field name="transaksi_tanggal" class="java.sql.Date"/>
+	<field name="alatmusik_idalatmusik" class="java.lang.String"/>
+	<field name="alatmusik_namaalatmusik" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="194" y="0" width="123" height="63" uuid="977154ae-609f-4e58-a780-ad6c3aad63f4"/>
+				<imageExpression><![CDATA["C:\\Users\\ASUS\\Pictures\\VIVACEMUSIC 1.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -215,6 +216,11 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         txtcaribarang.setVisible(false);
         txtnamasupplier.setEnabled(false);
         btnHapussp.setVisible(false);
+        btnAktifkanOFFX.setVisible(false);
+        btnAktifkanON.setVisible(false);
+        btnHitungauto.setVisible(false);
+        txtpembayaranauto.setVisible(false);
+        btnSegarkan.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -224,7 +230,8 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         txtMenu = new javax.swing.JLabel();
         btnReset = new javax.swing.JLabel();
         btnHitung = new javax.swing.JLabel();
-        btnCetak = new javax.swing.JLabel();
+        btnSegarkan = new javax.swing.JLabel();
+        btnHitungauto = new javax.swing.JLabel();
         btnTambahkan = new javax.swing.JLabel();
         btnTambahsp = new javax.swing.JLabel();
         btnHapussp = new javax.swing.JLabel();
@@ -238,11 +245,16 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         txtcarisupplier = new javax.swing.JTextField();
         txtkembalian = new javax.swing.JTextField();
         txtpembayaran = new javax.swing.JTextField();
+        txtpembayaranauto = new javax.swing.JTextField();
         txthargatotal = new javax.swing.JTextField();
         txtjumlah = new javax.swing.JTextField();
         txtidbarang = new javax.swing.JTextField();
         txtnamasupplier = new javax.swing.JTextField();
         txtidprodukmasuk = new javax.swing.JTextField();
+        btnAktifkanOFF = new javax.swing.JLabel();
+        btnAktifkanOFFX = new javax.swing.JLabel();
+        btnAktifkanON = new javax.swing.JLabel();
+        txtAktifkan = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabel = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -301,27 +313,47 @@ public class FormProdukmasuk extends javax.swing.JPanel {
                 btnHitungMouseExited(evt);
             }
         });
-        add(btnHitung, new org.netbeans.lib.awtextra.AbsoluteConstraints(984, 903, 235, 38));
+        add(btnHitung, new org.netbeans.lib.awtextra.AbsoluteConstraints(984, 903, 523, 38));
 
-        btnCetak.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
-        btnCetak.setForeground(new java.awt.Color(95, 95, 95));
-        btnCetak.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnCetak.setText("CETAK FAKTUR");
-        btnCetak.setPreferredSize(new java.awt.Dimension(104, 36));
-        btnCetak.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+        btnSegarkan.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
+        btnSegarkan.setForeground(new java.awt.Color(95, 95, 95));
+        btnSegarkan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnSegarkan.setText("SEGARKAN");
+        btnSegarkan.setPreferredSize(new java.awt.Dimension(104, 36));
+        btnSegarkan.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
-                btnCetakMouseMoved(evt);
+                btnSegarkanMouseMoved(evt);
             }
         });
-        btnCetak.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnSegarkan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnCetakMouseClicked(evt);
+                btnSegarkanMouseClicked(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnCetakMouseExited(evt);
+                btnSegarkanMouseExited(evt);
             }
         });
-        add(btnCetak, new org.netbeans.lib.awtextra.AbsoluteConstraints(1272, 903, 235, 38));
+        add(btnSegarkan, new org.netbeans.lib.awtextra.AbsoluteConstraints(987, 903, 520, 38));
+
+        btnHitungauto.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
+        btnHitungauto.setForeground(new java.awt.Color(95, 95, 95));
+        btnHitungauto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnHitungauto.setText("HITUNG DAN SEGARKAN");
+        btnHitungauto.setPreferredSize(new java.awt.Dimension(104, 36));
+        btnHitungauto.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                btnHitungautoMouseMoved(evt);
+            }
+        });
+        btnHitungauto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHitungautoMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnHitungautoMouseExited(evt);
+            }
+        });
+        add(btnHitungauto, new org.netbeans.lib.awtextra.AbsoluteConstraints(987, 903, 520, 38));
 
         btnTambahkan.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
         btnTambahkan.setForeground(new java.awt.Color(95, 95, 95));
@@ -510,6 +542,16 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         });
         add(txtpembayaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 740, 510, 40));
 
+        txtpembayaranauto.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtpembayaranauto.setBorder(null);
+        txtpembayaranauto.setOpaque(false);
+        txtpembayaranauto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtpembayaranautoActionPerformed(evt);
+            }
+        });
+        add(txtpembayaranauto, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 740, 510, 40));
+
         txthargatotal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txthargatotal.setBorder(null);
         txthargatotal.setOpaque(false);
@@ -518,11 +560,21 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         txtjumlah.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtjumlah.setBorder(null);
         txtjumlah.setOpaque(false);
+        txtjumlah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtjumlahActionPerformed(evt);
+            }
+        });
         add(txtjumlah, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 360, 510, 40));
 
         txtidbarang.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtidbarang.setBorder(null);
         txtidbarang.setOpaque(false);
+        txtidbarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtidbarangActionPerformed(evt);
+            }
+        });
         add(txtidbarang, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 260, 510, 40));
 
         txtnamasupplier.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -534,6 +586,60 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         txtidprodukmasuk.setBorder(null);
         txtidprodukmasuk.setOpaque(false);
         add(txtidprodukmasuk, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 70, 200, 40));
+
+        btnAktifkanOFF.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAktifkanOFF.setForeground(new java.awt.Color(95, 95, 95));
+        btnAktifkanOFF.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnAktifkanOFF.setText("OFF");
+        btnAktifkanOFF.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                btnAktifkanOFFMouseMoved(evt);
+            }
+        });
+        btnAktifkanOFF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAktifkanOFFMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAktifkanOFFMouseExited(evt);
+            }
+        });
+        add(btnAktifkanOFF, new org.netbeans.lib.awtextra.AbsoluteConstraints(1485, 520, 40, 20));
+
+        btnAktifkanOFFX.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAktifkanOFFX.setForeground(new java.awt.Color(95, 95, 95));
+        btnAktifkanOFFX.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnAktifkanOFFX.setText("OFF");
+        btnAktifkanOFFX.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAktifkanOFFXMouseClicked(evt);
+            }
+        });
+        add(btnAktifkanOFFX, new org.netbeans.lib.awtextra.AbsoluteConstraints(1485, 520, 40, 20));
+
+        btnAktifkanON.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAktifkanON.setForeground(new java.awt.Color(95, 95, 95));
+        btnAktifkanON.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnAktifkanON.setText("ON");
+        btnAktifkanON.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                btnAktifkanONMouseMoved(evt);
+            }
+        });
+        btnAktifkanON.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAktifkanONMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAktifkanONMouseExited(evt);
+            }
+        });
+        add(btnAktifkanON, new org.netbeans.lib.awtextra.AbsoluteConstraints(1485, 520, 40, 20));
+
+        txtAktifkan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtAktifkan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtAktifkan.setText("Aktifkan Auto-Refresh :");
+        add(txtAktifkan, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 520, 150, 20));
 
         tabel.setBackground(new java.awt.Color(244, 239, 224));
         tabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -587,7 +693,7 @@ public class FormProdukmasuk extends javax.swing.JPanel {
 
         add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 580, 890, 390));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Form ProdukMasuk.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Form ProdukMasuk 2.png"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1600, 1010));
 
         txtidsupplier.setText("jTextField1");
@@ -643,12 +749,15 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         if (spON.getText().equals("on")){
             txtidsupplier.setText(tabel.getValueAt(baris, 1).toString()); 
             txtidbarang.setText("");
+            txtidbarang.setEditable(true);
             if (namaspON.getText().equals("off")){
             txtnamasupplier.setText(tabel.getValueAt(baris, 2).toString());
+            txtnamasupplier.setEnabled(false);
             }
         } else if (brON.getText().equals("on")){
             txtidsupplier.setText("");
             txtidbarang.setText(tabel.getValueAt(baris, 1).toString());
+            txtidbarang.setEditable(false);
             String id = model.getValueAt(x, 1).toString();
             idbr = id;
             if (namaspON.getText().equals("off")){
@@ -819,7 +928,7 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         java.sql.Connection conn = (Connection)Config.configDB();
         java.sql.PreparedStatement pst1 = conn.prepareStatement(sql1);
         pst1.execute();
-        JOptionPane.showMessageDialog(null,"Data Supplier dan Produk Masuk Berhasil Ditambahkan");
+        JOptionPane.showMessageDialog(null,"Data Supplier dan Produk Masuk Berhasil Ditambahkan","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/approvedicon.png"));
         txtjumlah.setText(null);
         namaspON.setText("on");
         btnHapussp.setVisible(true);
@@ -827,9 +936,10 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         txthargatotal.setText(null);
         txtpembayaran.setText(null);
         txtkembalian.setText(null);
+        peralihanPm = -1;
         
     } catch (HeadlessException | SQLException e){
-        JOptionPane.showMessageDialog(this, e.getMessage());
+        JOptionPane.showMessageDialog(this, e.getMessage(),"Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
     }
     }//GEN-LAST:event_btnTambahspMouseClicked
 
@@ -841,24 +951,47 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         btnTambahkan.setForeground(new java.awt.Color(0, 0, 0));
     }//GEN-LAST:event_btnTambahkanMouseMoved
 
+    // Variabel untuk txtidbarang
+    public int peralihanPm = -1;
+    
     private void btnTambahkanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahkanMouseClicked
-        if (namaspON.getText().equals("on")){
-            String jumlah = txtjumlah.getText();
-            int jumlah1 = Integer.parseInt(jumlah);
+        if (namaspON.getText().equals("off")){
+            JOptionPane.showMessageDialog(null,"Tidak dapat menambahkan barang!\nTambahkan supplier terlebih dahulu","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+        } else {
+            int jumlah1 = Integer.parseInt(txtjumlah.getText());
             int harga1 = Integer.parseInt(hargabelibr);
             int total = jumlah1 * harga1;
+            System.out.println(jumlah1);
         
             txthargabeli.setText(String.valueOf(total));
         
             Date date = new Date();
             DateFormat formattanggal = new SimpleDateFormat("yyyy-MM-dd");
             String sekarang = formattanggal.format(date);
-            model2.addRow (new Object[] {txtidprodukmasuk.getText(), idbr, namabr, hargabelibr, jumlah, total, sekarang});
-
+            int p = daftar.getRowCount();
+            int i = 0;
+            do{
+                if(p!= 0 && daftar.getValueAt(i, 1).toString().equals(txtidbarang.getText()) ){
+                    int jml = Integer.parseInt(daftar.getValueAt(i, 4).toString());
+                    int jml1 = jml + jumlah1;
+                    int tlhrg = jml1 * harga1;
+                    System.out.println(jml);
+                    System.out.println(jml1);
+                    daftar.setValueAt(jml1, i, 4);
+                    daftar.setValueAt(tlhrg, i, 5);
+                }else{
+                    peralihanPm++;
+                }
+            i++;
+            }while(i < p);
+            
+            if(peralihanPm == p){
+                model2.addRow (new Object[] {txtidprodukmasuk.getText(), idbr, namabr, hargabelibr, jumlah1, total, sekarang});
+            }
+            
+            peralihanPm = 0;
             tambahtotalkeranjang();
             txtjumlah.setText(null);
-        } else {
-            JOptionPane.showMessageDialog(null,"Tidak dapat menambahkan barang!\nTambahkan supplier terlebih dahulu");
         }
     }//GEN-LAST:event_btnTambahkanMouseClicked
 
@@ -872,6 +1005,8 @@ public class FormProdukmasuk extends javax.swing.JPanel {
 
     private void btnResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseClicked
         model2.setRowCount(0);
+        txtjumlah.setText(null);
+        peralihanPm = -1;
     }//GEN-LAST:event_btnResetMouseClicked
 
     private void btnResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseExited
@@ -893,7 +1028,7 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         int kembalian = totalharga - bayar;
         if(bayar>=totalharga){
             txtkembalian.setText(String.valueOf(Math.abs(kembalian)));
-            JOptionPane.showMessageDialog(this, "Pembayaran Berhasil");
+            JOptionPane.showMessageDialog(this, "Pembayaran Berhasil","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/approvedicon.png"));
             try{
                 for(int i = 0; i < model2.getRowCount(); i++){
                     String sql = "INSERT INTO detail_produkmasuk VALUE('"+model2.getValueAt(i, 0)+"',"
@@ -902,18 +1037,16 @@ public class FormProdukmasuk extends javax.swing.JPanel {
                     Connection con = (Connection)Config.configDB();
                     java.sql.PreparedStatement pst = con.prepareStatement(sql);
                     pst.execute();
-                    namaspON.setText("off");
-                    kosongkan();
-                    auto_kdPM();
-                    if (namaspON.getText().equals("off")){
-                    txtnamasupplier.setText("");
-                    }
+                    btnHitung.setVisible(false);
+                    btnSegarkan.setVisible(true);
+                    btnAktifkanOFF.setVisible(false);
+                    btnAktifkanOFFX.setVisible(true);
                 }
             }catch(SQLException e){
-                JOptionPane.showMessageDialog(this, e.getMessage());
+                JOptionPane.showMessageDialog(this, e.getMessage(),"Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
             }
         }else{
-            JOptionPane.showMessageDialog(null,"Pembayaran Gagal!\nUang yang di bayarkan kurang sebesar RP."+kembalian);
+            JOptionPane.showMessageDialog(null,"Pembayaran Gagal!\nUang yang di bayarkan kurang sebesar RP."+kembalian,"Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
         }
     }//GEN-LAST:event_btnHitungMouseClicked
 
@@ -921,17 +1054,53 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         btnHitung.setForeground(new java.awt.Color(95,95,95));
     }//GEN-LAST:event_btnHitungMouseExited
 
-    private void btnCetakMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCetakMouseMoved
-        btnCetak.setForeground(new java.awt.Color(0, 0, 0));
-    }//GEN-LAST:event_btnCetakMouseMoved
+    private void btnSegarkanMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSegarkanMouseMoved
+        btnSegarkan.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btnSegarkanMouseMoved
 
-    private void btnCetakMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCetakMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCetakMouseClicked
+    private void btnSegarkanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSegarkanMouseClicked
+            model.setRowCount(0);
+            model.setColumnCount(0);
+            load_tabelsp();
+            lebar_tabelsp();
+            spON.setText("on");
+            brON.setText("off");
+            namaspON.setText("off");
+            spdot.setVisible(true);
+            brdot.setVisible(false);
+            btnCarisp.setVisible(true);
+            txtcarisupplier.setVisible(true);
+            btnCaribr.setVisible(false);
+            txtcaribarang.setVisible(false);
+            txtidbarang.setText("");
+            txtnamasupplier.setText(null);
+            txtnamasupplier.setEnabled(true);
+            btnTambahsp.setVisible(true);
+            btnHapussp.setVisible(false);
+            txthargatotal.setText(null);
+            txtpembayaran.setText(null);
+            txtkembalian.setText(null);
+            model2.setRowCount(0);
+            model2.setRowCount(0);
+            model2.setColumnCount(0);
+            load_tabelkeranjang();
+            lebar_tabelkeranjang();
+            kosongkan();
+            auto_kdPM();
+        if (namaspON.getText().equals("off")){
+            txtnamasupplier.setText("");
+        }
+        btnHitung.setVisible(true);
+        btnSegarkan.setVisible(false);
+        btnAktifkanOFF.setVisible(true);
+        btnAktifkanOFFX.setVisible(false);
+        btnTambahsp.setVisible(true);
+        btnHapussp.setVisible(false);
+    }//GEN-LAST:event_btnSegarkanMouseClicked
 
-    private void btnCetakMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCetakMouseExited
-        btnCetak.setForeground(new java.awt.Color(95,95,95));
-    }//GEN-LAST:event_btnCetakMouseExited
+    private void btnSegarkanMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSegarkanMouseExited
+        btnSegarkan.setForeground(new java.awt.Color(95,95,95));
+    }//GEN-LAST:event_btnSegarkanMouseExited
 
     private void txtpembayaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpembayaranActionPerformed
         Date date = new Date();
@@ -944,7 +1113,7 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         int kembalian = totalharga - bayar;
         if(bayar>=totalharga){
             txtkembalian.setText(String.valueOf(Math.abs(kembalian)));
-            JOptionPane.showMessageDialog(this, "Pembayaran Berhasil");
+            JOptionPane.showMessageDialog(this, "Pembayaran Berhasil","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/approvedicon.png"));
             try{
                 for(int i = 0; i < model2.getRowCount(); i++){
                     String sql = "INSERT INTO detail_produkmasuk VALUE('"+model2.getValueAt(i, 0)+"',"
@@ -953,16 +1122,16 @@ public class FormProdukmasuk extends javax.swing.JPanel {
                     Connection con = (Connection)Config.configDB();
                     java.sql.PreparedStatement pst = con.prepareStatement(sql);
                     pst.execute();
-                    namaspON.setText("off");
-                    txtnamasupplier.setText(null);
-//                    kosongkan();
-                    auto_kdPM();
+                    btnHitung.setVisible(false);
+                    btnSegarkan.setVisible(true);
+                    btnAktifkanOFF.setVisible(false);
+                    btnAktifkanOFFX.setVisible(true);
                 }
             }catch(SQLException e){
-                JOptionPane.showMessageDialog(this, e.getMessage());
+                JOptionPane.showMessageDialog(this, e.getMessage(),"Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
             }
         }else{
-            JOptionPane.showMessageDialog(null,"Pembayaran Gagal!\nUang yang di bayarkan kurang sebesar RP."+kembalian);
+            JOptionPane.showMessageDialog(null,"Pembayaran Gagal!\nUang yang di bayarkan kurang sebesar RP."+kembalian,"Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
         }
     }//GEN-LAST:event_txtpembayaranActionPerformed
 
@@ -976,10 +1145,21 @@ public class FormProdukmasuk extends javax.swing.JPanel {
             java.sql.Connection conn = (Connection)Config.configDB();
             java.sql.PreparedStatement pst1 = conn.prepareStatement(sql);
             pst1.execute();
-            JOptionPane.showMessageDialog(null,"Data Supplier dan Produk Masuk Berhasil Dihapus"
-            
-            );
+            JOptionPane.showMessageDialog(null,"Data Supplier dan Produk Masuk Berhasil Dihapus","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/approvedicon.png"));
+            model.setRowCount(0);
+            model.setColumnCount(0);
+            load_tabelsp();
+            lebar_tabelsp();
             spON.setText("on");
+            brON.setText("off");
+            namaspON.setText("off");
+            spdot.setVisible(true);
+            brdot.setVisible(false);
+            btnCarisp.setVisible(true);
+            txtcarisupplier.setVisible(true);
+            btnCaribr.setVisible(false);
+            txtcaribarang.setVisible(false);
+            txtidbarang.setText("");
             txtnamasupplier.setText(null);
             txtnamasupplier.setEnabled(true);
             btnTambahsp.setVisible(true);
@@ -988,9 +1168,10 @@ public class FormProdukmasuk extends javax.swing.JPanel {
             txtpembayaran.setText(null);
             txtkembalian.setText(null);
             model2.setRowCount(0);
+            peralihanPm = -1;
 
         } catch (HeadlessException | SQLException e){
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage(),"Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
         }
     }//GEN-LAST:event_btnHapusspMouseClicked
 
@@ -998,17 +1179,222 @@ public class FormProdukmasuk extends javax.swing.JPanel {
         btnHapussp.setForeground(new java.awt.Color(95,95,95));
     }//GEN-LAST:event_btnHapusspMouseExited
 
+    private void btnAktifkanOFFMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAktifkanOFFMouseMoved
+        btnAktifkanOFF.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btnAktifkanOFFMouseMoved
+
+    private void btnAktifkanOFFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAktifkanOFFMouseClicked
+        btnAktifkanOFF.setText(null);
+        btnAktifkanOFF.setVisible(false);
+        btnAktifkanON.setText("ON");
+        btnAktifkanON.setVisible(true);
+        btnSegarkan.setVisible(false);
+        btnHitung.setVisible(false);
+        btnHitungauto.setVisible(true);
+        txtpembayaranauto.setVisible(true);
+    }//GEN-LAST:event_btnAktifkanOFFMouseClicked
+
+    private void btnAktifkanOFFMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAktifkanOFFMouseExited
+        btnAktifkanOFF.setForeground(new java.awt.Color(95,95,95));
+    }//GEN-LAST:event_btnAktifkanOFFMouseExited
+
+    private void btnAktifkanONMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAktifkanONMouseMoved
+        btnAktifkanON.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btnAktifkanONMouseMoved
+
+    private void btnAktifkanONMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAktifkanONMouseClicked
+        btnAktifkanOFF.setText("OFF");
+        btnAktifkanOFF.setVisible(true);
+        btnAktifkanON.setText(null);
+        btnAktifkanON.setVisible(false);
+        btnSegarkan.setVisible(false);
+        btnHitung.setVisible(true);
+        btnHitungauto.setVisible(false);
+        txtpembayaranauto.setVisible(false);
+    }//GEN-LAST:event_btnAktifkanONMouseClicked
+
+    private void btnAktifkanONMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAktifkanONMouseExited
+        btnAktifkanON.setForeground(new java.awt.Color(95,95,95));
+    }//GEN-LAST:event_btnAktifkanONMouseExited
+
+    private void btnHitungautoMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHitungautoMouseMoved
+        btnHitungauto.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btnHitungautoMouseMoved
+
+    private void btnHitungautoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHitungautoMouseClicked
+        Date date = new Date();
+        DateFormat formattanggal = new SimpleDateFormat("YYYY-MM-dd");
+        String sekarang = formattanggal.format(date);
+
+        int bayar = Integer.parseInt(txtpembayaran.getText());
+        int totalharga = Integer.parseInt(txthargatotal.getText());
+
+        int kembalian = totalharga - bayar;
+        if(bayar>=totalharga){
+            txtkembalian.setText(String.valueOf(Math.abs(kembalian)));
+            JOptionPane.showMessageDialog(this, "Pembayaran Berhasil","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/approvedicon.png"));
+            try{
+                for(int i = 0; i < model2.getRowCount(); i++){
+                    String sql = "INSERT INTO detail_produkmasuk VALUE('"+model2.getValueAt(i, 0)+"',"
+                    + " '"+model2.getValueAt(i, 1)+"', '"+model2.getValueAt(i, 3)+"', "
+                    + "'"+model2.getValueAt(i, 4)+"', '"+model2.getValueAt(i, 5)+"', '"+model2.getValueAt(i, 6)+"')";
+                    Connection con = (Connection)Config.configDB();
+                    java.sql.PreparedStatement pst = con.prepareStatement(sql);
+                    pst.execute();
+                    model.setRowCount(0);
+                    model.setColumnCount(0);
+                    load_tabelsp();
+                    lebar_tabelsp();
+                    spON.setText("on");
+                    brON.setText("off");
+                    namaspON.setText("off");
+                    spdot.setVisible(true);
+                    brdot.setVisible(false);
+                    btnCarisp.setVisible(true);
+                    txtcarisupplier.setVisible(true);
+                    btnCaribr.setVisible(false);
+                    txtcaribarang.setVisible(false);
+                    txtidbarang.setText("");
+                    txtnamasupplier.setText(null);
+                    txtnamasupplier.setEnabled(true);
+                    btnTambahsp.setVisible(true);
+                    btnHapussp.setVisible(false);
+                    txthargatotal.setText(null);
+                    txtpembayaran.setText(null);
+                    txtkembalian.setText(null);
+                    btnSegarkan.setVisible(false);
+                    btnHitung.setVisible(false);
+                    model2.setRowCount(0);
+                    model2.setRowCount(0);
+                    model2.setColumnCount(0);
+                    load_tabelkeranjang();
+                    lebar_tabelkeranjang();
+                    kosongkan();
+                    auto_kdPM();
+                    if (namaspON.getText().equals("off")){
+                        txtnamasupplier.setText("");
+                    }
+                    
+                }
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, e.getMessage(),"Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Pembayaran Gagal!\nUang yang di bayarkan kurang sebesar RP."+kembalian,"Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+        }
+    }//GEN-LAST:event_btnHitungautoMouseClicked
+
+    private void btnHitungautoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHitungautoMouseExited
+        btnHitungauto.setForeground(new java.awt.Color(95,95,95));
+    }//GEN-LAST:event_btnHitungautoMouseExited
+
+    private void txtpembayaranautoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpembayaranautoActionPerformed
+        Date date = new Date();
+        DateFormat formattanggal = new SimpleDateFormat("YYYY-MM-dd");
+        String sekarang = formattanggal.format(date);
+
+        int bayar = Integer.parseInt(txtpembayaran.getText());
+        int totalharga = Integer.parseInt(txthargatotal.getText());
+
+        int kembalian = totalharga - bayar;
+        if(bayar>=totalharga){
+            txtkembalian.setText(String.valueOf(Math.abs(kembalian)));
+            JOptionPane.showMessageDialog(this, "Pembayaran Berhasil","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/approvedicon.png"));
+            try{
+                for(int i = 0; i < model2.getRowCount(); i++){
+                    String sql = "INSERT INTO detail_produkmasuk VALUE('"+model2.getValueAt(i, 0)+"',"
+                    + " '"+model2.getValueAt(i, 1)+"', '"+model2.getValueAt(i, 3)+"', "
+                    + "'"+model2.getValueAt(i, 4)+"', '"+model2.getValueAt(i, 5)+"', '"+model2.getValueAt(i, 6)+"')";
+                    Connection con = (Connection)Config.configDB();
+                    java.sql.PreparedStatement pst = con.prepareStatement(sql);
+                    pst.execute();
+                    model.setRowCount(0);
+                    model.setColumnCount(0);
+                    load_tabelsp();
+                    lebar_tabelsp();
+                    spON.setText("on");
+                    brON.setText("off");
+                    namaspON.setText("off");
+                    spdot.setVisible(true);
+                    brdot.setVisible(false);
+                    btnCarisp.setVisible(true);
+                    txtcarisupplier.setVisible(true);
+                    btnCaribr.setVisible(false);
+                    txtcaribarang.setVisible(false);
+                    txtidbarang.setText("");
+                    txtnamasupplier.setText(null);
+                    txtnamasupplier.setEnabled(true);
+                    btnTambahsp.setVisible(true);
+                    btnHapussp.setVisible(false);
+                    txthargatotal.setText(null);
+                    txtpembayaran.setText(null);
+                    txtkembalian.setText(null);
+                    btnSegarkan.setVisible(false);
+                    btnHitung.setVisible(false);
+                    model2.setRowCount(0);
+                    model2.setRowCount(0);
+                    model2.setColumnCount(0);
+                    load_tabelkeranjang();
+                    lebar_tabelkeranjang();
+                    kosongkan();
+                    auto_kdPM();
+                    if (namaspON.getText().equals("off")){
+                        txtnamasupplier.setText("");
+                    }
+                    
+                }
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, e.getMessage(),"Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Pembayaran Gagal!\nUang yang di bayarkan kurang sebesar RP."+kembalian,"Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+        }
+    }//GEN-LAST:event_txtpembayaranautoActionPerformed
+
+    private void txtjumlahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtjumlahActionPerformed
+        if (namaspON.getText().equals("on")){
+            String jumlah = txtjumlah.getText();
+            int jumlah1 = Integer.parseInt(jumlah);
+            int harga1 = Integer.parseInt(hargabelibr);
+            int total = jumlah1 * harga1;
+        
+            txthargabeli.setText(String.valueOf(total));
+        
+            Date date = new Date();
+            DateFormat formattanggal = new SimpleDateFormat("yyyy-MM-dd");
+            String sekarang = formattanggal.format(date);
+            model2.addRow (new Object[] {txtidprodukmasuk.getText(), idbr, namabr, hargabelibr, jumlah, total, sekarang});
+
+            tambahtotalkeranjang();
+            txtjumlah.setText(null);
+        } else {
+            JOptionPane.showMessageDialog(null,"Tidak dapat menambahkan barang!\nTambahkan supplier terlebih dahulu","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+        }
+    }//GEN-LAST:event_txtjumlahActionPerformed
+
+    private void txtidbarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidbarangActionPerformed
+        
+    }//GEN-LAST:event_txtidbarangActionPerformed
+
+    private void btnAktifkanOFFXMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAktifkanOFFXMouseClicked
+        JOptionPane.showMessageDialog(this, "Tidak dapat mengaktifkan Auto-Refresh!\nTekan tombol 'Segarkan' untuk mengaktifkan.","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+    }//GEN-LAST:event_btnAktifkanOFFXMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField brON;
     private javax.swing.JLabel brdot;
+    private javax.swing.JLabel btnAktifkanOFF;
+    private javax.swing.JLabel btnAktifkanOFFX;
+    private javax.swing.JLabel btnAktifkanON;
     private javax.swing.JLabel btnBarang;
     private javax.swing.JLabel btnCaribr;
     private javax.swing.JLabel btnCarisp;
-    private javax.swing.JLabel btnCetak;
     private javax.swing.JLabel btnHapussp;
     private javax.swing.JLabel btnHitung;
+    private javax.swing.JLabel btnHitungauto;
     private javax.swing.JLabel btnReset;
+    private javax.swing.JLabel btnSegarkan;
     private javax.swing.JLabel btnSupplier;
     private javax.swing.JLabel btnTambahkan;
     private javax.swing.JLabel btnTambahsp;
@@ -1020,6 +1406,7 @@ public class FormProdukmasuk extends javax.swing.JPanel {
     private javax.swing.JTextField spON;
     private javax.swing.JLabel spdot;
     private javax.swing.JTable tabel;
+    private javax.swing.JLabel txtAktifkan;
     private javax.swing.JLabel txtMenu;
     private javax.swing.JTextField txtcaribarang;
     private javax.swing.JTextField txtcarisupplier;
@@ -1033,6 +1420,7 @@ public class FormProdukmasuk extends javax.swing.JPanel {
     private javax.swing.JTextField txtnamabarang;
     private javax.swing.JTextField txtnamasupplier;
     private javax.swing.JTextField txtpembayaran;
+    private javax.swing.JTextField txtpembayaranauto;
     private javax.swing.JTextField txtstok;
     // End of variables declaration//GEN-END:variables
 }

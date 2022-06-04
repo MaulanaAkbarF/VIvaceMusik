@@ -38,9 +38,9 @@ public class FormBarang extends javax.swing.JPanel {
     
     String location=null;
     String tgl, filename;
+    DefaultTableModel model = new DefaultTableModel();
     
     private void load_tabelbarang() {
-        DefaultTableModel model = new DefaultTableModel();
         model.addColumn("No");
         model.addColumn("ID Alat Musik");
         model.addColumn("Nama Alat Musik");
@@ -118,10 +118,9 @@ public class FormBarang extends javax.swing.JPanel {
         try{
                 File f = path.getSelectedFile();
                 location = f.getAbsolutePath();
-                filename = location + "_" + date +".xls";
-                txtlokasi.setText(filename);
+                txtlokasi.setText(location + "_" + date +".xls");
         }catch(Exception e){
-                JOptionPane.showMessageDialog(null, e);
+                JOptionPane.showMessageDialog(null, "Perintah tidak valid/dibatalkan.","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
         }
     }
     
@@ -187,6 +186,10 @@ public class FormBarang extends javax.swing.JPanel {
         btnEdit = new javax.swing.JLabel();
         btnTambah = new javax.swing.JLabel();
         barcodebaca = new javax.swing.JLabel();
+        barangcb = new javax.swing.JComboBox<>();
+        teksbarang = new javax.swing.JLabel();
+        teksbarang1 = new javax.swing.JLabel();
+        barangcb1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -400,7 +403,33 @@ public class FormBarang extends javax.swing.JPanel {
             }
         });
         add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 860, 120, 50));
-        add(barcodebaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 720, 470, 110));
+        add(barcodebaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 720, 390, 110));
+
+        barangcb.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        barangcb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID Barang", "Nama Barang", "Harga Beli Terendah", "Harga Beli Tertinggi", "Harga Jual Terendah", "Harga Jual Tertinggi", "Stok Terendah", "Stok Tertinggi" }));
+        barangcb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                barangcbActionPerformed(evt);
+            }
+        });
+        add(barangcb, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 117, 200, -1));
+
+        teksbarang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        teksbarang.setText("Urut Berdasarkan :");
+        add(teksbarang, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 120, -1, -1));
+
+        teksbarang1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        teksbarang1.setText("Urut Berdasarkan :");
+        add(teksbarang1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 120, -1, -1));
+
+        barangcb1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        barangcb1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID Barang", "Nama Barang", "Harga Beli Terendah", "Harga Beli Tertinggi", "Harga Jual Terendah", "Harga Jual Tertinggi", "Stok Terendah", "Stok Tertinggi" }));
+        barangcb1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                barangcb1ActionPerformed(evt);
+            }
+        });
+        add(barangcb1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 117, 200, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Form Barang.png"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1600, 1010));
@@ -433,11 +462,11 @@ public class FormBarang extends javax.swing.JPanel {
             txtstok.setText(tabelbarang.getValueAt(baris, 5).toString());
               ImageIcon imgThisImg = new ImageIcon("src" + "/" + "img" + "/barcode/" + txtidbarang.getText() + ".gif" );
             barcodebaca.setIcon(imgThisImg);
+            txtstok.setEnabled(false);
         }
     }//GEN-LAST:event_tabelbarangMouseClicked
 
     private void txtcaribarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcaribarangActionPerformed
-       
         try {
             String sqls = "SELECT * FROM alatmusik WHERE idalatmusik LIKE '%"+txtcaribarang.getText()+
             "%' OR namaalatmusik LIKE '%"+txtcaribarang.getText()+"%' OR harga_jual LIKE '"+txtcaribarang.getText()+"'"
@@ -467,15 +496,17 @@ public class FormBarang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnTambahMouseExited
 
     private void btnTambahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseClicked
-    String kb = String.valueOf(txtidbarang.getText());
+        if (txtnamabarang.getText().equals("") && txthargabeli.getText().equals("") && txthargajual.getText().equals("") && txtstok.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Anda belum menulis data apapun!","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+        } else {
+        String kb = String.valueOf(txtidbarang.getText());
         try {
             String sql3 = "INSERT INTO alatmusik VALUES ('"+txtidbarang.getText()+"','"+txtnamabarang.getText()+
             "',"+txthargabeli.getText()+","+txthargajual.getText()+","+txtstok.getText()+")";
             java.sql.Connection conn = (Connection) Config.configDB();
             java.sql.PreparedStatement pst = conn.prepareStatement(sql3);
             pst.execute();
-            JOptionPane.showMessageDialog(null,"Penyimpanan Data Berhasil");
-            DefaultTableModel model = (DefaultTableModel)tabelbarang.getModel();
+            JOptionPane.showMessageDialog(null,"Penyimpanan Data Berhasil","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/approvedicon.png"));
             model.setRowCount(0);
             
             load_tabelbarang();
@@ -483,9 +514,10 @@ public class FormBarang extends javax.swing.JPanel {
             kosongkan();
             generate(kb);
         } catch (HeadlessException | SQLException e){
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage(),"Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
         } catch (Exception ex) {
             Logger.getLogger(FormBarang.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }
     }//GEN-LAST:event_btnTambahMouseClicked
 
@@ -498,7 +530,10 @@ public class FormBarang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnEditMouseExited
 
     private void btnEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseClicked
-    try {
+        if (txtnamabarang.getText().equals("") && txthargabeli.getText().equals("") && txthargajual.getText().equals("") && txtstok.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Anda belum memilih data pada tabel.","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+        } else {
+        try {
             String sql = "UPDATE alatmusik SET namaalatmusik = '"+txtnamabarang.getText()+"',"
             + " harga_beli = '"+txthargabeli.getText()
             +"', harga_jual = '"+txthargajual.getText()
@@ -507,13 +542,13 @@ public class FormBarang extends javax.swing.JPanel {
             java.sql.Connection conn = (Connection) Config.configDB();
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             pst.execute();
-            JOptionPane.showMessageDialog(null,"Data Berhasil di Perbarui");
-            DefaultTableModel model = (DefaultTableModel)tabelbarang.getModel();
+            JOptionPane.showMessageDialog(null,"Data Berhasil di Perbarui","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/approvedicon.png"));
             model.setRowCount(0);
             load_tabelbarang();
             lebar_tabelbarang();
         } catch (HeadlessException | SQLException e) {
-            JOptionPane.showMessageDialog(null, "Perubahan Data Gagal!\n"+e.getMessage());
+            JOptionPane.showMessageDialog(null, "Perubahan Data Gagal!\n"+e.getMessage(),"Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+        }
         }
         kosongkan();
     }//GEN-LAST:event_btnEditMouseClicked
@@ -527,18 +562,21 @@ public class FormBarang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnHapusMouseExited
 
     private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
-    try {
+        if (txtnamabarang.getText().equals("") && txthargabeli.getText().equals("") && txthargajual.getText().equals("") && txtstok.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Anda belum memilih data pada tabel.","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+        } else {
+        try {
             String sql = "DELETE FROM alatmusik WHERE idalatmusik ='"+txtidbarang.getText()+"'";
             java.sql.Connection conn = (Connection) Config.configDB();
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             pst.execute();
-            JOptionPane.showMessageDialog(null,"Data Berhasil di Hapus");
-            DefaultTableModel model = (DefaultTableModel)tabelbarang.getModel();
+            JOptionPane.showMessageDialog(null,"Data Berhasil di Hapus","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/approvedicon.png"));
             model.setRowCount(0);
             load_tabelbarang();
             lebar_tabelbarang();
         } catch (HeadlessException | SQLException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage(),"Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+        }
         }
         kosongkan();
         Auto_kodebarang();
@@ -565,7 +603,7 @@ public class FormBarang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCariMouseExited
 
     private void btnCariMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCariMouseClicked
-    try {
+        try {
             String sqls = "SELECT * FROM alatmusik WHERE idalatmusik LIKE '%"+txtcaribarang.getText()+
             "%' OR namaalatmusik LIKE '%"+txtcaribarang.getText()+"%' OR harga_jual LIKE '"+txtcaribarang.getText()+"'"
             + " OR harga_beli LIKE '"+txtcaribarang.getText()+
@@ -573,7 +611,6 @@ public class FormBarang extends javax.swing.JPanel {
             java.sql.Connection conn = (Connection) Config.configDB();
             java.sql.PreparedStatement pst = conn.prepareStatement(sqls);
             java.sql.ResultSet ress = pst.executeQuery(sqls);
-            DefaultTableModel model = (DefaultTableModel)tabelbarang.getModel();
             model.setRowCount(0);
             int no = 1;
             while (ress.next()){
@@ -594,10 +631,12 @@ public class FormBarang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnEksporMouseExited
 
     private void btnEksporMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEksporMouseClicked
-    DefaultTableModel model = (DefaultTableModel)tabelbarang.getModel();
+        if (txtlokasi.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Data Gagal di Export ke Excel!\nHarap Pilih lokasi penyimpanan file Excel ","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+        } else { 
         tabelbarang.setModel(model);
         try{
-            WritableWorkbook write = Workbook.createWorkbook(new File(filename));
+            WritableWorkbook write = Workbook.createWorkbook(new File(txtlokasi.getText()));
             WritableSheet sheet = write.createSheet("export-data",0);
             sheet.addCell(new Label(0,0,"Id Alat Musik"));
             sheet.addCell(new Label(1,0,"Nama Alat Musik"));
@@ -618,9 +657,10 @@ public class FormBarang extends javax.swing.JPanel {
             }
             write.write();
             write.close();
-            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan dalam Bentuk Excel");
+            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan dalam Bentuk Excel","Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/approvedicon.png"));
         }catch(HeadlessException | IOException | WriteException e){
-            JOptionPane.showMessageDialog(null, "Data Gagal Disimpan!!!"+e.toString());
+            JOptionPane.showMessageDialog(null, "Data Gagal Disimpan!!!"+e.toString(),"Pesan",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("src/Image/rejectedicon.png"));
+        }
         }
     }//GEN-LAST:event_btnEksporMouseClicked
 
@@ -636,8 +676,258 @@ public class FormBarang extends javax.swing.JPanel {
     fileChooser();
     }//GEN-LAST:event_btnUbahMouseClicked
 
+    private void barangcbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barangcbActionPerformed
+    if (barangcb.getSelectedIndex()==0){
+            try {
+            String sqls = "SELECT * FROM alatmusik ORDER BY idalatmusik";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sqls);
+            java.sql.ResultSet ress = pst.executeQuery(sqls);
+            model.setRowCount(0);
+            int no = 1;
+            while (ress.next()){
+                model.addRow (new Object[] {no++, ress.getString(1),
+                    ress.getString(2), ress.getString(3), ress.getString(4), ress.getString(5)});
+            }
+            tabelbarang.setModel(model);
+            } catch (SQLException ex) {
+            }
+        } else if (barangcb.getSelectedIndex()==1){
+            try {
+            String sqls = "SELECT * FROM alatmusik ORDER BY namaalatmusik";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sqls);
+            java.sql.ResultSet ress = pst.executeQuery(sqls);
+            model.setRowCount(0);
+            int no = 1;
+            while (ress.next()){
+                model.addRow (new Object[] {no++, ress.getString(1),
+                    ress.getString(2), ress.getString(3), ress.getString(4), ress.getString(5)});
+            }
+            tabelbarang.setModel(model);
+            } catch (SQLException ex) {
+            }
+        } else if (barangcb.getSelectedIndex()==2){
+            try {
+            String sqls = "SELECT * FROM alatmusik ORDER BY harga_beli ASC";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sqls);
+            java.sql.ResultSet ress = pst.executeQuery(sqls);
+            model.setRowCount(0);
+            int no = 1;
+            while (ress.next()){
+                model.addRow (new Object[] {no++, ress.getString(1),
+                    ress.getString(2), ress.getString(3), ress.getString(4), ress.getString(5)});
+            }
+            tabelbarang.setModel(model);
+            } catch (SQLException ex) {
+            }
+        } else if (barangcb.getSelectedIndex()==3){
+            try {
+            String sqls = "SELECT * FROM alatmusik ORDER BY harga_beli DESC";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sqls);
+            java.sql.ResultSet ress = pst.executeQuery(sqls);
+            model.setRowCount(0);
+            int no = 1;
+            while (ress.next()){
+                model.addRow (new Object[] {no++, ress.getString(1),
+                    ress.getString(2), ress.getString(3), ress.getString(4), ress.getString(5)});
+            }
+            tabelbarang.setModel(model);
+            } catch (SQLException ex) {
+            }
+        } else if (barangcb.getSelectedIndex()==4){
+            try {
+            String sqls = "SELECT * FROM alatmusik ORDER BY harga_jual ASC";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sqls);
+            java.sql.ResultSet ress = pst.executeQuery(sqls);
+            model.setRowCount(0);
+            int no = 1;
+            while (ress.next()){
+                model.addRow (new Object[] {no++, ress.getString(1),
+                    ress.getString(2), ress.getString(3), ress.getString(4), ress.getString(5)});
+            }
+            tabelbarang.setModel(model);
+            } catch (SQLException ex) {
+            }
+        } else if (barangcb.getSelectedIndex()==5){
+            try {
+            String sqls = "SELECT * FROM alatmusik ORDER BY harga_jual DESC";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sqls);
+            java.sql.ResultSet ress = pst.executeQuery(sqls);
+            model.setRowCount(0);
+            int no = 1;
+            while (ress.next()){
+                model.addRow (new Object[] {no++, ress.getString(1),
+                    ress.getString(2), ress.getString(3), ress.getString(4), ress.getString(5)});
+            }
+            tabelbarang.setModel(model);
+            } catch (SQLException ex) {
+            }
+        } else if (barangcb.getSelectedIndex()==6){
+            try {
+            String sqls = "SELECT * FROM alatmusik ORDER BY stok ASC";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sqls);
+            java.sql.ResultSet ress = pst.executeQuery(sqls);
+            model.setRowCount(0);
+            int no = 1;
+            while (ress.next()){
+                model.addRow (new Object[] {no++, ress.getString(1),
+                    ress.getString(2), ress.getString(3), ress.getString(4), ress.getString(5)});
+            }
+            tabelbarang.setModel(model);
+            } catch (SQLException ex) {
+            }
+        } else if (barangcb.getSelectedIndex()==7){
+            try {
+            String sqls = "SELECT * FROM alatmusik ORDER BY stok DESC";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sqls);
+            java.sql.ResultSet ress = pst.executeQuery(sqls);
+            model.setRowCount(0);
+            int no = 1;
+            while (ress.next()){
+                model.addRow (new Object[] {no++, ress.getString(1),
+                    ress.getString(2), ress.getString(3), ress.getString(4), ress.getString(5)});
+            }
+            tabelbarang.setModel(model);
+            } catch (SQLException ex) {
+            }
+        }
+    }//GEN-LAST:event_barangcbActionPerformed
+
+    private void barangcb1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barangcb1ActionPerformed
+        if (barangcb1.getSelectedIndex()==0){
+            try {
+            String sqls = "SELECT * FROM alatmusik ORDER BY idalatmusik";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sqls);
+            java.sql.ResultSet ress = pst.executeQuery(sqls);
+            model.setRowCount(0);
+            int no = 1;
+            while (ress.next()){
+                model.addRow (new Object[] {no++, ress.getString(1),
+                    ress.getString(2), ress.getString(3), ress.getString(4), ress.getString(5)});
+            }
+            tabelbarang.setModel(model);
+            } catch (SQLException ex) {
+            }
+        } else if (barangcb1.getSelectedIndex()==1){
+            try {
+            String sqls = "SELECT * FROM alatmusik ORDER BY namaalatmusik";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sqls);
+            java.sql.ResultSet ress = pst.executeQuery(sqls);
+            model.setRowCount(0);
+            int no = 1;
+            while (ress.next()){
+                model.addRow (new Object[] {no++, ress.getString(1),
+                    ress.getString(2), ress.getString(3), ress.getString(4), ress.getString(5)});
+            }
+            tabelbarang.setModel(model);
+            } catch (SQLException ex) {
+            }
+        } else if (barangcb1.getSelectedIndex()==2){
+            try {
+            String sqls = "SELECT * FROM alatmusik ORDER BY harga_beli ASC";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sqls);
+            java.sql.ResultSet ress = pst.executeQuery(sqls);
+            model.setRowCount(0);
+            int no = 1;
+            while (ress.next()){
+                model.addRow (new Object[] {no++, ress.getString(1),
+                    ress.getString(2), ress.getString(3), ress.getString(4), ress.getString(5)});
+            }
+            tabelbarang.setModel(model);
+            } catch (SQLException ex) {
+            }
+        } else if (barangcb1.getSelectedIndex()==3){
+            try {
+            String sqls = "SELECT * FROM alatmusik ORDER BY harga_beli DESC";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sqls);
+            java.sql.ResultSet ress = pst.executeQuery(sqls);
+            model.setRowCount(0);
+            int no = 1;
+            while (ress.next()){
+                model.addRow (new Object[] {no++, ress.getString(1),
+                    ress.getString(2), ress.getString(3), ress.getString(4), ress.getString(5)});
+            }
+            tabelbarang.setModel(model);
+            } catch (SQLException ex) {
+            }
+        } else if (barangcb1.getSelectedIndex()==4){
+            try {
+            String sqls = "SELECT * FROM alatmusik ORDER BY harga_jual ASC";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sqls);
+            java.sql.ResultSet ress = pst.executeQuery(sqls);
+            model.setRowCount(0);
+            int no = 1;
+            while (ress.next()){
+                model.addRow (new Object[] {no++, ress.getString(1),
+                    ress.getString(2), ress.getString(3), ress.getString(4), ress.getString(5)});
+            }
+            tabelbarang.setModel(model);
+            } catch (SQLException ex) {
+            }
+        } else if (barangcb1.getSelectedIndex()==5){
+            try {
+            String sqls = "SELECT * FROM alatmusik ORDER BY harga_jual DESC";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sqls);
+            java.sql.ResultSet ress = pst.executeQuery(sqls);
+            model.setRowCount(0);
+            int no = 1;
+            while (ress.next()){
+                model.addRow (new Object[] {no++, ress.getString(1),
+                    ress.getString(2), ress.getString(3), ress.getString(4), ress.getString(5)});
+            }
+            tabelbarang.setModel(model);
+            } catch (SQLException ex) {
+            }
+        } else if (barangcb1.getSelectedIndex()==6){
+            try {
+            String sqls = "SELECT * FROM alatmusik ORDER BY stok ASC";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sqls);
+            java.sql.ResultSet ress = pst.executeQuery(sqls);
+            model.setRowCount(0);
+            int no = 1;
+            while (ress.next()){
+                model.addRow (new Object[] {no++, ress.getString(1),
+                    ress.getString(2), ress.getString(3), ress.getString(4), ress.getString(5)});
+            }
+            tabelbarang.setModel(model);
+            } catch (SQLException ex) {
+            }
+        } else if (barangcb1.getSelectedIndex()==7){
+            try {
+            String sqls = "SELECT * FROM alatmusik ORDER BY stok DESC";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sqls);
+            java.sql.ResultSet ress = pst.executeQuery(sqls);
+            model.setRowCount(0);
+            int no = 1;
+            while (ress.next()){
+                model.addRow (new Object[] {no++, ress.getString(1),
+                    ress.getString(2), ress.getString(3), ress.getString(4), ress.getString(5)});
+            }
+            tabelbarang.setModel(model);
+            } catch (SQLException ex) {
+            }
+        }
+    }//GEN-LAST:event_barangcb1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    protected javax.swing.JComboBox<String> barangcb;
+    protected javax.swing.JComboBox<String> barangcb1;
     private javax.swing.JLabel barcodebaca;
     private javax.swing.JLabel btnCari;
     private javax.swing.JLabel btnCetak;
@@ -649,6 +939,8 @@ public class FormBarang extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabelbarang;
+    protected javax.swing.JLabel teksbarang;
+    protected javax.swing.JLabel teksbarang1;
     private javax.swing.JLabel txtMenu;
     private javax.swing.JTextField txtcaribarang;
     private javax.swing.JTextField txthargabeli;
@@ -656,6 +948,6 @@ public class FormBarang extends javax.swing.JPanel {
     private javax.swing.JTextField txtidbarang;
     private javax.swing.JTextField txtlokasi;
     private javax.swing.JTextField txtnamabarang;
-    private javax.swing.JTextField txtstok;
+    protected javax.swing.JTextField txtstok;
     // End of variables declaration//GEN-END:variables
 }

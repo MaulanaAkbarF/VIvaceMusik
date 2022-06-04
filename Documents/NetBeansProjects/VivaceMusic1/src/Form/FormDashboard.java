@@ -117,7 +117,7 @@ public class FormDashboard extends javax.swing.JPanel {
             Date date = new Date();
             DateFormat formattanggal = new SimpleDateFormat("YYYY-MM-dd");
             Calendar cal =Calendar.getInstance();
-            cal.add(Calendar.DATE, -7);
+            cal.add(Calendar.DATE, -6);
             String sekarang = formattanggal.format(date);
             String tujuhHariLalu = formattanggal.format(cal.getTime());
             
@@ -150,7 +150,7 @@ public class FormDashboard extends javax.swing.JPanel {
             Date date = new Date();
             DateFormat formattanggal = new SimpleDateFormat("YYYY-MM-dd");
             Calendar cal =Calendar.getInstance();
-            cal.add(Calendar.DATE, -7);
+            cal.add(Calendar.DATE, -6);
             String sekarang = formattanggal.format(date);
             String tujuhHariLalu = formattanggal.format(cal.getTime());
             
@@ -182,7 +182,7 @@ public class FormDashboard extends javax.swing.JPanel {
             Date date = new Date();
             DateFormat formattanggal = new SimpleDateFormat("YYYY-MM-dd");
             Calendar cal =Calendar.getInstance();
-            cal.add(Calendar.DATE, -7);
+            cal.add(Calendar.DATE, -6);
             String sekarang = formattanggal.format(date);
             String tujuhHariLalu = formattanggal.format(cal.getTime());
             
@@ -228,12 +228,6 @@ public class FormDashboard extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtgrafik = new javax.swing.JLabel();
-        txttampilkan = new javax.swing.JLabel();
-        dashboardcb = new javax.swing.JComboBox<>();
-        panelE = new javax.swing.JPanel();
-        GrafikPanel2 = new javax.swing.JPanel();
-        bgDashboard1 = new javax.swing.JLabel();
         panelD = new javax.swing.JPanel();
         txtMenu = new javax.swing.JLabel();
         btnRefresh = new javax.swing.JLabel();
@@ -246,42 +240,20 @@ public class FormDashboard extends javax.swing.JPanel {
         textstok = new javax.swing.JLabel();
         angkastokmasuk = new javax.swing.JLabel();
         textstokmasuk = new javax.swing.JLabel();
+        txtgrafik = new javax.swing.JLabel();
+        txttampilkan = new javax.swing.JLabel();
+        dashboardcb = new javax.swing.JComboBox<>();
         GrafikPanel1 = new javax.swing.JPanel();
         GrafikPanel = new javax.swing.JPanel();
         bgDashboard = new javax.swing.JLabel();
+        panelE = new javax.swing.JPanel();
+        txttampilkan1 = new javax.swing.JLabel();
+        dashboardcb1 = new javax.swing.JComboBox<>();
+        txtgrafik1 = new javax.swing.JLabel();
+        GrafikPanel2 = new javax.swing.JPanel();
+        bgDashboard1 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtgrafik.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        txtgrafik.setText("Grafik Pembeli Selama 7 Hari");
-        add(txtgrafik, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 660, 500, -1));
-
-        txttampilkan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        txttampilkan.setText("Tampilkan :");
-        add(txttampilkan, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 660, 100, 25));
-
-        dashboardcb.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        dashboardcb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Grafik Pembeli Selama 7 Hari", "Grafik Barang Terjual Selama 7 Hari", "Grafik Total Penjualan Selama 7 Hari" }));
-        dashboardcb.setBorder(null);
-        dashboardcb.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        dashboardcb.setOpaque(false);
-        dashboardcb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dashboardcbActionPerformed(evt);
-            }
-        });
-        add(dashboardcb, new org.netbeans.lib.awtextra.AbsoluteConstraints(1124, 657, 370, 30));
-
-        panelE.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        GrafikPanel2.setOpaque(false);
-        GrafikPanel2.setLayout(new javax.swing.BoxLayout(GrafikPanel2, javax.swing.BoxLayout.LINE_AXIS));
-        panelE.add(GrafikPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 1450, 830));
-
-        bgDashboard1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Form Expand.png"))); // NOI18N
-        panelE.add(bgDashboard1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        add(panelE, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1600, 1010));
 
         panelD.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -351,6 +323,26 @@ public class FormDashboard extends javax.swing.JPanel {
         textstokmasuk.setText("Jumlah Stok Masuk Hari Ini");
         panelD.add(textstokmasuk, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 520, 490, -1));
 
+        txtgrafik.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtgrafik.setText("Grafik Pembeli Selama 7 Hari");
+        panelD.add(txtgrafik, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 660, 500, -1));
+
+        txttampilkan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txttampilkan.setText("Tampilkan :");
+        panelD.add(txttampilkan, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 660, 100, 25));
+
+        dashboardcb.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        dashboardcb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Grafik Pembeli Selama 7 Hari", "Grafik Barang Terjual Selama 7 Hari", "Grafik Total Penjualan Selama 7 Hari" }));
+        dashboardcb.setBorder(null);
+        dashboardcb.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        dashboardcb.setOpaque(false);
+        dashboardcb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dashboardcbActionPerformed(evt);
+            }
+        });
+        panelD.add(dashboardcb, new org.netbeans.lib.awtextra.AbsoluteConstraints(1124, 657, 370, 30));
+
         GrafikPanel1.setOpaque(false);
         GrafikPanel1.setLayout(new javax.swing.BoxLayout(GrafikPanel1, javax.swing.BoxLayout.LINE_AXIS));
         panelD.add(GrafikPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 700, 1450, 230));
@@ -363,6 +355,37 @@ public class FormDashboard extends javax.swing.JPanel {
         panelD.add(bgDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         add(panelD, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1600, 1010));
+
+        panelE.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txttampilkan1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txttampilkan1.setText("Tampilkan :");
+        panelE.add(txttampilkan1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 70, 100, 25));
+
+        dashboardcb1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        dashboardcb1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Grafik Pembeli Selama 7 Hari", "Grafik Barang Terjual Selama 7 Hari", "Grafik Total Penjualan Selama 7 Hari" }));
+        dashboardcb1.setBorder(null);
+        dashboardcb1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        dashboardcb1.setOpaque(false);
+        dashboardcb1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dashboardcb1ActionPerformed(evt);
+            }
+        });
+        panelE.add(dashboardcb1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1124, 67, 370, 30));
+
+        txtgrafik1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtgrafik1.setText("Grafik Pembeli Selama 7 Hari");
+        panelE.add(txtgrafik1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 500, -1));
+
+        GrafikPanel2.setOpaque(false);
+        GrafikPanel2.setLayout(new javax.swing.BoxLayout(GrafikPanel2, javax.swing.BoxLayout.LINE_AXIS));
+        panelE.add(GrafikPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 1450, 830));
+
+        bgDashboard1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Form Expand.png"))); // NOI18N
+        panelE.add(bgDashboard1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        add(panelE, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1600, 1010));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRefreshMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseMoved
@@ -384,6 +407,7 @@ public class FormDashboard extends javax.swing.JPanel {
         txtgrafik.setText("Grafik Pembeli Selama 7 Hari");
         panelD.setVisible(true);
         panelE.setVisible(false);
+//        dashboardcb.setSelectedIndex(0);
         GrafikPanel.setVisible(true);
         GrafikPanel1.setVisible(false);
     }
@@ -391,19 +415,48 @@ public class FormDashboard extends javax.swing.JPanel {
         txtgrafik.setText("Grafik Barang Terjual Selama 7 Hari");
         panelD.setVisible(true);
         panelE.setVisible(false);
+//        dashboardcb.setSelectedIndex(1);
         GrafikPanel.setVisible(false);
         GrafikPanel1.setVisible(true);
     }
     if (dashboardcb.getSelectedIndex()==2){
-        txtgrafik.setText("Grafik Total Penjualan Selama 7 Hari");
+        txtgrafik1.setText("Grafik Total Penjualan Selama 7 Hari");
         panelD.setVisible(false);
         panelE.setVisible(true);
+        dashboardcb1.setSelectedIndex(2);
         GrafikPanel2.setVisible(true);
-        txtgrafik.setBounds(70, 60, 500, 25);
-        txttampilkan.setBounds(1010, 60, 100, 25);
-        dashboardcb.setBounds(1124, 57, 370, 30);
+        
+//        txtgrafik.setBounds(70, 60, 500, 25);
+//        txttampilkan.setBounds(1010, 60, 100, 25);
+//        dashboardcb.setBounds(1124, 57, 370, 30);
     }
     }//GEN-LAST:event_dashboardcbActionPerformed
+
+    private void dashboardcb1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardcb1ActionPerformed
+    if (dashboardcb1.getSelectedIndex()==0){
+        txtgrafik.setText("Grafik Pembeli Selama 7 Hari");
+        panelD.setVisible(true);
+        panelE.setVisible(false);
+        dashboardcb.setSelectedIndex(0);
+        GrafikPanel.setVisible(true);
+        GrafikPanel1.setVisible(false);
+    }
+    if (dashboardcb1.getSelectedIndex()==1){
+        txtgrafik.setText("Grafik Barang Terjual Selama 7 Hari");
+        panelD.setVisible(true);
+        panelE.setVisible(false);
+        dashboardcb.setSelectedIndex(1);
+        GrafikPanel.setVisible(false);
+        GrafikPanel1.setVisible(true);
+    }
+    if (dashboardcb1.getSelectedIndex()==2){
+        txtgrafik1.setText("Grafik Total Penjualan Selama 7 Hari");
+        panelD.setVisible(false);
+        panelE.setVisible(true);
+//        dashboardcb1.setSelectedIndex(2);
+        GrafikPanel2.setVisible(true);
+    }
+    }//GEN-LAST:event_dashboardcb1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -418,15 +471,18 @@ public class FormDashboard extends javax.swing.JPanel {
     private javax.swing.JLabel bgDashboard1;
     public javax.swing.JLabel btnRefresh;
     public javax.swing.JLabel btnSelesai;
-    private javax.swing.JComboBox<String> dashboardcb;
-    private javax.swing.JPanel panelD;
-    private javax.swing.JPanel panelE;
+    public javax.swing.JComboBox<String> dashboardcb;
+    private javax.swing.JComboBox<String> dashboardcb1;
+    protected javax.swing.JPanel panelD;
+    protected javax.swing.JPanel panelE;
     private javax.swing.JLabel textpembeli;
     private javax.swing.JLabel textpenjualan1hr;
     private javax.swing.JLabel textstok;
     private javax.swing.JLabel textstokmasuk;
     private javax.swing.JLabel txtMenu;
-    private javax.swing.JLabel txtgrafik;
-    private javax.swing.JLabel txttampilkan;
+    public javax.swing.JLabel txtgrafik;
+    private javax.swing.JLabel txtgrafik1;
+    public javax.swing.JLabel txttampilkan;
+    private javax.swing.JLabel txttampilkan1;
     // End of variables declaration//GEN-END:variables
 }
